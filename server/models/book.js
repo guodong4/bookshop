@@ -1,7 +1,7 @@
 /* jshint indent: 1 */
 var Sequelize = require('sequelize')  //引入sequelize模块
 var db = require('../db')  //引入数据库
-module.exports = db.define('t_book',
+module.exports = db.define('t_books',
     {
         id: {
 			type: Sequelize.STRING(50),
