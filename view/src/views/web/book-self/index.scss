@@ -1,0 +1,32 @@
+.book-self {
+    height: auto;
+    width: 100%;
+    font-family: "sofia_promedium";
+    margin-bottom: 30px;
+    .content {
+        width: 75%;
+        margin: 0 auto;
+        min-height:600px;
+        border:1px solid #aaa;
+        border-top:5px solid #ec3737;
+        .ant-layout-sider{
+            position: relative;
+            min-width: 0;
+            background: #222;
+            transition: all 0.2s;
+            .ant-menu-dark, .ant-menu-dark .ant-menu-sub {
+                color: rgba(255, 255, 255, 0.65);
+                background: #222;
+            }
+            .ant-menu.ant-menu-dark .ant-menu-item-selected, .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
+                background-color: #ec3737;
+            }
+        }
+        .ant-table-thead > tr > th{
+            background:#eee;
+        }
+        .ant-card-type-inner .ant-card-head{
+            background:#eee;
+        }
+    }
+}

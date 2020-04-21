@@ -1,0 +1,20 @@
+._loading {
+    position: absolute;
+    height:100%;
+    width:100%;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 10001;
+    top:0px;
+    color:#fff;
+    .content{
+        width:80px;
+        margin:0 auto;
+        position: flex;
+        line-height: 450px;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+        text-align: left;
+    }
+}

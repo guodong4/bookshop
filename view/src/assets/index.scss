@@ -1,0 +1,142 @@
+.custom-btn{
+    color: #fff;
+    background-color: #222;
+    font-family: 'sofia_promedium';
+    padding: 0px 13px;
+    transition: all 0.3s ease 0s;
+    border:0;
+    font-size:14px;
+    height:36px;
+    width:auto;
+    outline: none; 
+    border-radius: 5px;
+    line-height:36px;
+    cursor: pointer;
+    margin-right:10px;
+}
+.custom-btn-red{
+    color: #fff;
+    font-family: 'sofia_promedium';
+    padding: 0px 13px;
+    transition: all 0.3s ease 0s;
+    border:0;
+    font-size:14px;
+    height:36px;
+    width:auto;
+    outline: none; 
+    border-radius: 5px;
+    line-height:36px;
+    cursor: pointer;
+    margin-right:10px;
+    background-color: #e03737;
+}
+.custom-btn-green{
+    color: #fff;
+    font-family: 'sofia_promedium';
+    padding: 0px 13px;
+    transition: all 0.3s ease 0s;
+    border:0;
+    font-size:14px;
+    height:36px;
+    width:auto;
+    outline: none; 
+    border-radius: 5px;
+    line-height:36px;
+    cursor: pointer;
+    margin-right:10px;
+    background-color: #0c9c37;
+}
+.custom-btn-blue{
+    color: #fff;
+    font-family: 'sofia_promedium';
+    padding: 0px 13px;
+    transition: all 0.3s ease 0s;
+    border:0;
+    font-size:14px;
+    height:36px;
+    width:auto;
+    outline: none; 
+    border-radius: 5px;
+    line-height:36px;
+    cursor: pointer;
+    margin-right:10px;
+    background-color: #135db1;
+}
+.custom-btn-gray{
+    color: #fff;
+    font-family: 'sofia_promedium';
+    padding: 0px 13px;
+    transition: all 0.3s ease 0s;
+    border:0;
+    font-size:14px;
+    height:36px;
+    width:auto;
+    outline: none; 
+    border-radius: 5px;
+    line-height:36px;
+    cursor: pointer;
+    margin:10px;
+    background-color: #aaa;
+}
+.custom-btn:hover{
+    background-color: #e03737;
+}
+ul,li{ padding:0;margin:0;list-style:none}
+.ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #e03737;
+    border-color: #e03737;
+    outline: none;
+    -webkit-appearance:none;
+}
+.custom-btn-small{
+    padding: 0px 10px;
+    height:26px;
+    font-size:12px;
+    line-height:26px;
+}
+.custom-btn-small:hover{
+    opacity: 0.75;
+}
+.ant-pagination{
+    .ant-pagination-item:hover{
+        font-weight: 500;
+        border-color: #ec3737;
+        background:#ec3737;
+        a{
+            color:#fff !important;
+        }
+    }
+    .ant-pagination-item-active {
+        font-weight: 500;
+        border-color: #ec3737;
+        background:#ec3737;
+        a{
+            color:#fff !important;
+        }
+    }
+}
+a{
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+a:link {
+    text-decoration: none;
+}
+/*已经访问过的链接*/
+a:visited {
+    text-decoration: none;
+}
+/*鼠标划过(停留)的链接*/
+a:hover {
+    text-decoration: none;
+    color: #fff;
+}
+/* 正在点击的链接*/
+a:active {
+    color: #fff;
+    text-decoration: none;
+}

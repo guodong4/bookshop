@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+	<script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+	<script src="index.js"></script>
+    <style>
+    .sowing {
+        position: absolute;
+        text-align: center;
+        height:auto;
+        width: 100%;
+    }
+    </style>
+    <script>
+        $(function(){
+            new Index({
+            el:$(".sowing"),
+            data:[
+                {
+                    src:"1.jpeg",
+                    mainTitle:"国家主权基金中国国新C轮领投",
+                    secontTitle:"智能科技平台百融金服旗下",
+                    url:""
+                },
+                {
+                    src:"2.jpeg",
+                    mainTitle:"好风景",
+                    secontTitle:"好个毛线",
+                    url:""
+                },
+                {
+                    src:"3.jpeg",
+                    mainTitle:"鹅鹅鹅饿饿",
+                    secontTitle:"你好",
+                    url:""
+                }
+            ],
+            isAuto:true, //是否自动播放
+            speed:5000 //播放速度。ms
+        });
+        })
+    
+    </script>
+</head>
+<body>
+    <div class="sowing"></div>
+</body>
+</html>

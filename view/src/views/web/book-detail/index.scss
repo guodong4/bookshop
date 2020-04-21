@@ -1,0 +1,205 @@
+.book-body {
+    height: auto;
+    width: 100%;
+    font-family: "sofia_promedium";
+    margin-bottom: 30px;
+
+    .content {
+        height: 100%;
+        .goods-detail {
+            width: 60%;
+            margin: 0 auto;
+            .goods-bigimg {
+                display: inline-block;
+                width: 50%;
+                .goods-img {
+                    width: 100%;
+                    height: 520px;
+                    border: 1px solid #eee;
+                    .goods-imgr {
+                        text-align: center;
+                        height: 80%;
+                        margin-top: 10%;
+                        img {
+                            height: 100%;
+                        }
+                    }
+                }
+                .goods-imgs {
+                    width: 100%;
+                    height: 100px;
+                    text-align: center;
+                    padding: 0;
+                    min-width: 456px;
+                    font-size: 0;
+                    display: flex;
+                    .goods-li {
+                        width: 100px;
+                        height: 100px;
+                        display: inline-block;
+                        border: 1px solid #eee;
+                        margin: 5px auto;
+                        cursor: pointer;
+                        border-radius: 10px;
+                        overflow: hidden;
+                        img {
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                }
+            }
+            .goods-desc {
+                float: right;
+                width: 45%;
+                height: 100%;
+                .goods-name {
+                    font-size: 30px;
+                    font-weight: 600;
+                    line-height: 40px;
+                }
+                .goods-ins {
+                    border-bottom: 2px dashed #eee;
+                    line-height: 40px;
+                    color: #ff1414;
+                }
+                .goods-price {
+                    line-height: 50px;
+                    .price {
+                        font-weight: 600;
+                        font-size: 30px;
+                    }
+                }
+                .goods-comment {
+                    line-height: 50px;
+                }
+                .goods-stock {
+                    line-height: 50px;
+                }
+                .goods-num {
+                    line-height: 50px;
+                }
+                .goods-warn {
+                    line-height: 50px;
+                }
+                .goods-other {
+                    line-height: 40px;
+                    font-size: 16px;
+                    color: rgb(134, 11, 11);
+                    font-weight: 600;
+                }
+                .goods-cart {
+                    margin-bottom: 0px;
+                }
+            }
+        }
+        .goods-set {
+            width: 60%;
+            margin: 50px auto;
+            min-height: 500px;
+            .goods-bar {
+                width: 100%;
+                height: 38px;
+                background: #f7f7f7;
+                border: 1px solid #eee;
+                border-bottom: 1px solid #e4393c;
+                .bar {
+                    float: left;
+                    padding: 0px 20px;
+                    text-align: center;
+                    line-height: 38px;
+                    height: 38px;
+                    color: #333;
+                    cursor: pointer;
+                }
+                .bar:not(.active):hover {
+                    color: #e4393c;
+                }
+                .active {
+                    background: #e4393c;
+                    color: #fff;
+                    height: 36px;
+                }
+            }
+            .goods-detail-desc {
+                width: 100%;
+                min-height: 450px;
+                border: 1px solid #eee;
+                .goods-brief-intr {
+                    width: 80%;
+                    margin: 0px auto;
+                    li {
+                        height: 50px;
+                        line-height: 50px;
+                        text-align: left;
+                        display: inline-block;
+                        width: 30%;
+                    }
+                }
+                .goods-imgs {
+                    border-top: 1px solid #eee;
+                    width: 100%;
+                    text-align: center;
+                    padding-top: 10px;
+                    img {
+                        width: 80%;
+                        margin-top: 10px;
+                    }
+                }
+            }
+            .goods-comment {
+                width: 100%;
+                min-height: 450px;
+                border: 1px solid #eee;
+                .comment-one {
+                    width: 98%;
+                    margin: 0px auto;
+                    border-bottom: 1px solid #eee;
+                    .comment-self {
+                        .comment-content {
+                            float: left;
+                            width: 88%;
+                            .comment-date {
+                                color: #999;
+                            }
+                            .comment-desc {
+                                padding: 10px;
+                                height: 50px;
+                            }
+                        }
+                        .comment-author {
+                            float: left;
+                            width: 12%;
+                            text-align: center;
+                            padding-top: 10px;
+                            .author-photo {
+                                width: 60px;
+                                height: 60px;
+                                border-radius: 60px;
+                                overflow: hidden;
+                                text-align: center;
+                                margin: 0 auto;
+                                img {
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                            }
+                            .author-name {
+                                line-height: 50px;
+                            }
+                        }
+                    }
+                    .comment-replay {
+                        color: #e4393c;
+                        font-size: 12px;
+                        line-height: 50px;
+                        height: 50px;
+                        font-weight: 500;
+                        border-top: 1px dashed #eee;
+                        padding-left: 30px;
+                    }
+                }
+            }
+        }
+    }
+}

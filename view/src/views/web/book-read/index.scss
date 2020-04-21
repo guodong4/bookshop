@@ -1,0 +1,190 @@
+.header {
+    background: #e03737;
+    height: 53px;
+    width: 100%;
+    .content {
+        width: 60%;
+        margin: 0 auto;
+        height: 100%;
+        .left {
+            float: left;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 0px;
+            line-height: 50px;
+        }
+        .right {
+            float: right;
+            line-height: 50px;
+            color: #fff;
+            font-size: 20px;
+            a {
+                color: #fff;
+                font-size: 16px;
+                line-height: 50px;
+                text-decoration: none;
+            }
+        } 
+    }
+}
+.book-body {
+    height: auto;
+    width: 100%;
+    font-family: "sofia_promedium";
+    margin-bottom: 30px;
+    .content {
+        height: 100%;
+        .item {
+            height: 50px;
+            background: #e03737;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 50px;
+            .item-ul {
+                margin: 0 auto;
+                width: 60%;
+                .item-li {
+                    display: inline-block;
+                    padding: 0 20px;
+                    cursor: pointer;
+                    position: relative;
+                    color: #fff;
+                    margin-right: 5px;
+                    .child-item {
+                        position: absolute;
+                        min-width: 150px;
+                        min-height: 100px;
+                        opacity: 0;
+                        visibility: hidden;
+                        left: 0px;
+                        padding: 20px;
+                        background: #f5f5f5;
+                        border: 1px solid #eee;
+                        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+                        transition: all 0.3s ease 0s;
+                        z-index: 9999;
+                        .child-item-ul {
+                            font-size: 14px;
+                            font-family: "sofia_proregular";
+                            color: #666;
+                            .child-item-li {
+                                line-height: 30px;
+                                height: 30px;
+                                overflow: hidden;
+                            }
+                            .child-item-li:hover {
+                                color: #e03737;
+                            }
+                        }
+                    }
+                }
+                .item-li:hover {
+                    .child-item {
+                        opacity: 1;
+                        visibility: visible;
+                    }
+                    background: #f5f5f5;
+                    color: #666;
+                }
+                .activity {
+                    background: #f5f5f5;
+                    color: #666;
+                }
+            }
+        }
+        
+        
+        .book-list {
+            margin: 0 auto;
+            width: 60%;
+            margin-top: 50px;
+            .title-item {
+                line-height: 30px;
+                .title {
+                    font-size: 20px;
+                    font-weight: 600;
+                    color: #222;
+                    border-left: 3px solid #e03737;
+                    padding-left: 14px;
+                }
+            }
+            .goods-list {
+                width: 100%;
+                margin-top: 20px;
+                ul {
+                    width: 100%;
+                    li {
+                        height: 280px;
+                        width: 24%;
+                        display: inline-block;
+                        transition: all 0.3s;
+                        border: 1px solid #eee;
+                        border-radius: 5px;
+                        margin-right: 1%;
+                        margin-bottom:5px;
+                        padding: 10px;
+                        cursor: pointer;
+                        .goods-special{
+                            height:100%;
+                            .left {
+                                width: 100%;
+                                height:70%;
+                                text-align: center;
+                                img{
+                                    height:80%;
+                                }
+                            }
+                            .right {
+                                height:30%;
+                                width: 100%;
+                            }
+                        }
+                        
+                    }
+                    li:hover {
+                        border: 1px solid #e03737;
+                    }
+                }
+            }
+        }
+        .book-hot{
+            margin: 0 auto;
+            width: 60%;
+            margin-top: 50px;
+            height:350px;
+            .hot-filed{
+                height:320px;
+                width:100%;
+                border:1px solid #eee;
+                border-radius: 5px;
+                margin-top:20px;
+                line-height: 30px;
+                font-size:13px;
+                padding:10px;
+                font-weight: 600;
+                color:#666;
+                div{
+                    border-bottom: 1px dashed #eee;
+                    height:30px;
+                }
+            }
+            .title-item {
+                line-height: 30px;
+                .title {
+                    font-size: 20px;
+                    font-weight: 600;
+                    color: #222;
+                    border-left: 3px solid #e03737;
+                    padding-left: 14px;
+                }
+            }
+        }
+    }
+}
+.footer{
+    background:#222;
+    height:50;
+    width:100%;
+    color:#909296;
+}

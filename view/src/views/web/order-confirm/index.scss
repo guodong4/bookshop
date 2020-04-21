@@ -1,0 +1,71 @@
+.book-body {
+    height: auto;
+    width: 100%;
+    font-family: "sofia_promedium";
+    margin-bottom: 30px;
+    .content {
+        height: 100%;
+        .goods-confirm {
+            width: 30%;
+            margin: 10px auto;
+            min-height:500px;
+            border:1px solid #eee;
+            .order-true{
+                width:100%;
+                margin:0 auto;
+                font-weight: 600;
+                .title{
+                    height:50px;
+                    background:#f5f5f5;
+                    width:100%;
+                    line-height:50px;
+                    color:#333;
+                    padding-left:20px;
+                    letter-spacing: 2px;
+                }
+                .content{
+                    height:120px;
+                    font-size:30px;
+                    text-align: center;
+                    color:#e03737;
+                    .icon{
+                        height:80px;
+                        line-height: 80px;
+                        display:inline-block;
+                        margin:10px auto;
+                        font-size:60px;
+                    }
+                    .money{
+                        height:80px;
+                        line-height: 30px;
+                        display:inline-block;
+                        margin:10px auto;
+                        font-size:16px;
+                        text-align: left;
+                        div{
+                            padding-left:20px;
+                        }
+                    }
+                    .pay-type{
+                        text-align: left;
+                        border-bottom: 1px solid #eee;
+                        height:60px;
+                        line-height:60px;
+                        padding:0px 30px;
+                    }
+                    .zhi{
+                        color:#1c7ef7;
+                    }
+                    .wei{
+                        color:#42b542;
+                    }
+                }
+            }
+            .pay-btn{
+                text-align: center;
+                width:100%;
+                margin-top:30px;
+            }
+        }
+    }
+}
