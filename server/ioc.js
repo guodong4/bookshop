@@ -3,8 +3,12 @@ module.exports = function (app) {
         var module = req.params.module;
         var method = req.params.method;
         var fn = require(`./service/${module}-service`);
-        new fn(req,res,method).then(function(data){
-            res.send(data)
-        });
+        if(method!="upload"){
+            new fn(req,res,method).then(function(data){
+                res.send(data)
+            });
+        }else{
+            new fn(req,res,method);
+        }
     });
 };

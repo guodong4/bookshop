@@ -1,6 +1,6 @@
 var Book = require('../models/book');
 var Sequelize = require('sequelize');
-var multer  = require('multer')
+var multer = require('multer')
 const uuid = require('node-uuid');
 var Op = Sequelize.Op;
 function Index() {
@@ -30,28 +30,24 @@ Object.assign(Index.prototype, {
         };
     },
     upload: async function (req, res) {
-        
-        console.log("==========");
-
-        var upload1 = multer({dest:"uploads/"}).single('file');
-
-        upload1(req, res, function (err) {
-            if (err) {
-                console.log(req.body);   //打印请求体
-                console.log(req.file);   
-              // An error occurred when uploading
-              return
+        var storage = multer.diskStorage({
+            destination: function (req, file, cb) {
+                cb(null, 'public/')
+            },
+            filename: function (req, file, cb) {
+                var fileArr = file.originalname.split(".");
+                var type = fileArr[fileArr.length - 1];
+                cb(null, uuid.v1() + "." + type)
             }
-            console.log(req.body);   //打印请求体
-            console.log(req.file); 
         })
-        // return {
-        //     code: 1,
-        //     data: {
-
-        //     },
-        //     msg: "上传成功"
-        // };
+        var upload1 = multer({ storage }).single('file');
+        upload1(req, res, function (err) {
+            res.send({
+                code: 1,
+                data: req.file,
+                msg: "上传成功"
+            });
+        })
     },
     save: async function (req, res) {
         var result = await Book.create({ ...req.body, id: uuid.v1() });

@@ -13,7 +13,7 @@ const Index = {
         };
     },
     mounted() {
-        this.getData(this.option);
+        this.getData(this.option); 
     },
     methods: {
         onSearch(value) {

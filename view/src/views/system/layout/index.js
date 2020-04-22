@@ -16,12 +16,12 @@ const Index = {
     data() {
         return {
             menu_item: "1-1",
-            systemrule: [],
+            systemrule: "1,1-1,1-2,1-3,2,3,4,5,6,7,6-1,6-2".split(","),
             user: {}
         };
     },
     mounted() {
-        this.checkLogin();
+        //this.checkLogin();
     },
     methods: {
         checkLogin() {
