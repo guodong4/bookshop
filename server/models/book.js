@@ -68,6 +68,11 @@ module.exports = db.define('t_books',
 			type: Sequelize.STRING(255),
 			allowNull: true
 		},
+		//图书类别文字
+		book_type_text: {
+			type: Sequelize.STRING(255),
+			allowNull: true
+		},
 		//图书备注
 		book_remarks: {
 			type: Sequelize.STRING(255),

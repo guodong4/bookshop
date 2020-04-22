@@ -35,6 +35,7 @@ const Index = {
             })
         },
         reset() {
+            this.dataSource=[];
             this.getData({
                 page: 1,
                 pageSize: 10

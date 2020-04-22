@@ -1,11 +1,12 @@
 import './index.scss';
-import { Button, Input, Table, message,Switch  } from 'ant-design-vue';
+import { Button, Input, Table, message, Switch } from 'ant-design-vue';
 import SearchBar from "@/components/SearchBar";
 import SetBook from "./set-book";
 const Index = {
     data() {
         return {
             dataSource: [],
+            
             option: {
                 page: 1,
                 pageSize: 10
@@ -13,7 +14,7 @@ const Index = {
         };
     },
     mounted() {
-        this.getData(this.option); 
+        this.getData(this.option);
     },
     methods: {
         onSearch(value) {
@@ -34,6 +35,7 @@ const Index = {
             })
         },
         reset() {
+            this.dataSource = [];
             this.getData({
                 page: 1,
                 pageSize: 10
@@ -42,10 +44,10 @@ const Index = {
         addBook() {
             this.$refs.setbook.$children[0].show();
         },
-        updateBook(id){
+        updateBook(id) {
             this.$refs.setbook.$children[0].show(id);
         },
-        delete(id){
+        delete(id) {
             $ajax({
                 url: "/book/delete",
                 data: {
@@ -56,8 +58,8 @@ const Index = {
                 this.reset();
             })
         },
-        upload(id){
-            
+        upload(id) {
+
         }
     },
     render() {
@@ -132,7 +134,7 @@ const Index = {
                 title: '上下架',
                 dataIndex: 'book_status',
                 customRender: (text, record, index) => {
-                    return <Switch checkedChildren="上架" unCheckedChildren="下架" checked={text==1} onChange={onChange} />
+                    return <Switch checkedChildren="上架" unCheckedChildren="下架" checked={text == 1} onChange={onChange} />
                 }
             },
             {
@@ -144,9 +146,9 @@ const Index = {
                 dataIndex: 'id',
                 customRender: (text, record, index) => {
                     return <span>
-                        <button class="custom-btn-blue custom-btn-small" onClick={this.updateBook.bind(this,record.id)}>编辑</button>
-                        <button class="custom-btn-blue custom-btn-small" onClick={this.upload.bind(this,record.id)}>图片上传</button>
-                        <button class="custom-btn-red custom-btn-small" onClick={this.delete.bind(this,record.id)}>删除</button>
+                        <button class="custom-btn-blue custom-btn-small" onClick={this.updateBook.bind(this, record.id)}>编辑</button>
+                        <button class="custom-btn-blue custom-btn-small" onClick={this.upload.bind(this, record.id)}>图片上传</button>
+                        <button class="custom-btn-red custom-btn-small" onClick={this.delete.bind(this, record.id)}>删除</button>
                     </span>
                 }
             },
@@ -155,8 +157,8 @@ const Index = {
             <SearchBar option={option} search={this.onSearch} reset={this.reset} customBtn={[
                 <Button type="primary" style="margin-left:8px" onClick={this.addBook}>新增</Button>
             ]} />
-            <Table dataSource={this.dataSource} bordered columns={columns} style="padding:10px;" rowKey={record => record.id} scroll={{x:1800}}/>
-            <SetBook ref="setbook"/>
+            <Table dataSource={this.dataSource} bordered columns={columns} style="padding:10px;" rowKey={record => record.id} scroll={{ x: 1800 }} />
+            <SetBook ref="setbook" />
         </div>
     }
 };
