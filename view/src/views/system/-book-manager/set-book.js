@@ -1,6 +1,6 @@
 import './index.scss';
 import { Form, Upload, Input, Menu, Dropdown, Button, Icon, message, Modal, InputNumber, DatePicker, Select } from 'ant-design-vue';
-
+import moment from 'moment';
 const { SubMenu } = Menu;
 
 const { Option } = Select;
@@ -47,6 +47,7 @@ const Index = {
             if (id) {
                 this.getBook(id);
             }
+            console.log(this.book);
             this.showAdd = true;
         },
         getBook(id) {
@@ -57,11 +58,24 @@ const Index = {
                 if (data.code == 1) {
                     this.book = data.data;
                     this.bookId = data.data.id;
+                    this.fileList = [{
+                        uid: data.data.id + "1",
+                        name: data.data.book_img,
+                        status: "done",
+                        url: host + "/" + data.data.book_img
+                    }];
                 }
             })
         },
         handleOk() {
             this.form.validateFields((err, values) => {
+                console.log(values);
+                values.book_type_text = this.book.book_type_text;
+                values.book_type = this.book.book_type;
+                values.book_press_time = values.book_press_time.format('YYYY-MM-DD');
+                //this.book = Object.assign(values, this.book);
+                //console.log(this.book)
+                // this.book.book_press_time = this.book.book_press_time.format('YYYY-MM-DD');
                 if (!err) {
                     if (this.bookId == "") {
                         $ajax({
@@ -72,6 +86,7 @@ const Index = {
                                 this.book = data.data;
                                 this.bookId = data.data.id;
                             }
+                            this.handleCancel()
                             message.success(data.msg);
                             this.reload();
                         })
@@ -80,11 +95,14 @@ const Index = {
                             url: "/book/update",
                             data: { ...values, id: this.bookId }
                         }).then(data => {
+                            this.handleCancel()
                             message.success(data.msg);
                             this.reload();
                         })
                     }
 
+                } else {
+                    console.log(err);
                 }
             });
         },
@@ -108,11 +126,14 @@ const Index = {
             win.document.write("<img src='" + file.url + "' style='margin:0 auto'/>")
         },
         handleCancel() {
+            this.form.resetFields();
+            this.book = {};
+            this.bookId = "";
+            this.fileList = [];
             this.showAdd = false;
         },
         selectType(data) {
-            console.log(data);
-            this.book.book_type_text = data.item.$attrs.data;
+            this.book.book_type_text = data.domEvent.target.innerText;
             this.book.book_type = data.key;
             this.$forceUpdate();
         }
@@ -120,6 +141,8 @@ const Index = {
     render() {
         const { getFieldDecorator } = this.form;
         const book = this.book;
+        console.log(book);
+        var book_name = book.book_name;
         return <Modal
             title="配置图书"
             visible={this.showAdd}
@@ -132,7 +155,7 @@ const Index = {
             <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} class="ant-advanced-search-form">
                 <Form.Item label="图书名称">
                     {getFieldDecorator("book_name", {
-                        initialValue: book.book_name || "",
+                        initialValue: book_name || "",
                         rules: [
                             {
                                 required: true,
@@ -145,7 +168,7 @@ const Index = {
                 </Form.Item>
                 <Form.Item label="图书简介">
                     {getFieldDecorator("book_desc", {
-                        initialValue: book.book_desc || "",
+                        initialValue: this.book.book_desc || "",
                         rules: [
                             {
                                 required: true,
@@ -158,21 +181,21 @@ const Index = {
                 </Form.Item>
                 <Form.Item label="现价">
                     {getFieldDecorator("book_price", {
-                        initialValue: book.book_price || "",
+                        initialValue: this.book.book_price || "",
                     })(
                         <Input />
                     )}
                 </Form.Item>
                 <Form.Item label="原价">
                     {getFieldDecorator("book_old_price", {
-                        initialValue: book.book_old_price || "",
+                        initialValue: this.book.book_old_price || "",
                     })(
                         <Input />
                     )}
                 </Form.Item>
                 <Form.Item label="封皮">
                     {getFieldDecorator("book_img", {
-                        initialValue: book.book_img || "",
+                        initialValue: this.book.book_img || "",
                         rules: [
                             {
                                 required: true,
@@ -199,7 +222,7 @@ const Index = {
                 </Form.Item>
                 <Form.Item label="作者">
                     {getFieldDecorator("book_author", {
-                        initialValue: book.book_author || "",
+                        initialValue: this.book.book_author || "",
                         rules: [
                             {
                                 required: true,
@@ -212,7 +235,7 @@ const Index = {
                 </Form.Item>
                 <Form.Item label="出版社">
                     {getFieldDecorator("book_press", {
-                        initialValue: book.book_press || "",
+                        initialValue: this.book.book_press || "",
                         rules: [
                             {
                                 required: true,
@@ -225,7 +248,7 @@ const Index = {
                 </Form.Item>
                 <Form.Item label="库存">
                     {getFieldDecorator("book_stock", {
-                        initialValue: book.book_stock || 0,
+                        initialValue: this.book.book_stock || 0,
                         rules: [
                             {
                                 required: true,
@@ -237,20 +260,21 @@ const Index = {
                 </Form.Item>
                 <Form.Item label="出版时间">
                     {getFieldDecorator("book_press_time", {
-                        initialValue: book.book_press_time,
+                        initialValue: this.book.book_press_time?moment(this.book.book_press_time):this.book.book_press_time,
                         rules: [
                             {
+                                type: 'object',
                                 required: true,
-                                message: '出版时间不能为空',
-                            },
+                                message: '出版时间不能为空!'
+                            }
                         ],
                     })(
-                        <DatePicker placeholder="选择时间" />
+                        <DatePicker placeholder="选择时间" format='YYYY-MM-DD'/>
                     )}
                 </Form.Item>
                 <Form.Item label="商品编码">
                     {getFieldDecorator("book_code", {
-                        initialValue: book.book_code || "",
+                        initialValue: this.book.book_code || "",
                         rules: [
                             {
                                 required: true,
@@ -263,7 +287,7 @@ const Index = {
                 </Form.Item>
                 <Form.Item label="图书类别">
                     {getFieldDecorator("book_type", {
-                        initialValue: book.book_type || "",
+                        initialValue: this.book.book_type || "",
                         rules: [
                             {
                                 required: true,
@@ -293,7 +317,7 @@ const Index = {
                 </Form.Item>
                 <Form.Item label="图书备注">
                     {getFieldDecorator("book_remarks", {
-                        initialValue: book.book_remarks || "",
+                        initialValue: this.book.book_remarks || "",
                         rules: [
                             {
                                 required: false
@@ -305,7 +329,7 @@ const Index = {
                 </Form.Item>
                 <Form.Item label="上下架">
                     {getFieldDecorator("book_status", {
-                        initialValue: book.book_status || "2",
+                        initialValue: this.book.book_status || "2",
                     })(
                         <Select>
                             <Option value="1">上架</Option>

@@ -73,6 +73,7 @@ const Index = {
             })
         },
         handleCancel() {
+            this.form.resetFields();
             this.showSet = false;
             this.user={};
             this.checkRule=[];

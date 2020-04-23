@@ -1,4 +1,5 @@
 export default async function(data){
+    console.log();
     var result =  await $.ajax({
         url:host+data.url,
         data:data.data,
