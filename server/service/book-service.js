@@ -1,4 +1,5 @@
 var Book = require('../models/book');
+var BookFileImg = require('../models/bookFileImg');
 var Sequelize = require('sequelize');
 var multer = require('multer')
 const uuid = require('node-uuid');
@@ -29,6 +30,25 @@ Object.assign(Index.prototype, {
             page
         };
     },
+    findAllByName: async function (req, res) {
+        var book_name = req.body.book_name || "";
+        var list = await Book.findAll({
+            where: {
+                book_name: { [Op.like]: book_name + '%' },
+            }
+        });
+        return list;
+    },
+    findBookImg: async function (req, res) {
+        console.log(req.body.book_id);
+        var list = await BookFileImg.findAll({
+            where: { book_id: req.body.book_id }
+        });
+        return {
+            code: 1,
+            data: list
+        };
+    },
     upload: async function (req, res) {
         var storage = multer.diskStorage({
             destination: function (req, file, cb) {
@@ -50,8 +70,17 @@ Object.assign(Index.prototype, {
         })
     },
     save: async function (req, res) {
-        console.log(req.body);
-        var result = await Book.create({ ...req.body, id: uuid.v1(),book_publish_time:new Date() });
+        var result = await Book.create({ ...req.body, id: uuid.v1(), book_publish_time: new Date() });
+        return {
+            code: 1,
+            data: result.dataValues,
+            msg: "添加成功"
+        };
+    },
+    saveImg: async function (req, res) {
+        var book_id = req.body.book_id;
+        var img_path = req.body.img_path;
+        var result = await BookFileImg.create({ book_id, img_path, id: uuid.v1() });
         return {
             code: 1,
             data: result.dataValues,
@@ -77,6 +106,14 @@ Object.assign(Index.prototype, {
     delete: async function (req, res) {
         var id = req.body.id;
         await Book.destroy({ where: { id } })
+        return {
+            code: 1,
+            msg: "删除成功"
+        };
+    },
+    deleteImg: async function (req, res) {
+        var id = req.body.id;
+        await BookFileImg.destroy({ where: { id } })
         return {
             code: 1,
             msg: "删除成功"

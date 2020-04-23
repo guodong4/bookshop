@@ -2,6 +2,7 @@ import './index.scss';
 import { Button, Input, Table, message, Switch,Icon,Popover } from 'ant-design-vue';
 import SearchBar from "@/components/SearchBar";
 import SetBook from "./set-book";
+import UploadImg from "./upload-img";
 import moment from 'moment';
 const Index = {
     data() {
@@ -60,10 +61,20 @@ const Index = {
             })
         },
         changeStatus(id,status){
-            
+            $ajax({
+                url:"/book/update",
+                data:{
+                    book_status:status==1?0:1,
+                    id
+                }
+            }).then(data=>{
+                if(data.code==1){
+                    this.getData(this.option);
+                }
+            })
         },
         upload(id) {
-
+            this.$refs.uploadimg.show(id);
         }
     },
     render() {
@@ -176,6 +187,7 @@ const Index = {
             ]} />
             <Table dataSource={this.dataSource} bordered columns={columns} style="padding:10px;" rowKey={record => record.id} scroll={{ x: 2000 }} />
             <SetBook ref="setbook" reload={this.reset}/>
+            <UploadImg ref="uploadimg" reload={this.reset}/>
         </div>
     }
 };

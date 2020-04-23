@@ -78,7 +78,7 @@ module.exports = db.define('t_books',
 			type: Sequelize.STRING(255),
 			allowNull: true
 		},
-		//上架状态
+		//上架状态 0 下架  1 上架
 		book_status: {
 			type: Sequelize.STRING(2),
 			allowNull: true

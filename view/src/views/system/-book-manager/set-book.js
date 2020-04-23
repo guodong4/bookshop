@@ -73,6 +73,7 @@ const Index = {
                 values.book_type_text = this.book.book_type_text;
                 values.book_type = this.book.book_type;
                 values.book_press_time = values.book_press_time.format('YYYY-MM-DD');
+                values.book_img = this.book.book_img;
                 //this.book = Object.assign(values, this.book);
                 //console.log(this.book)
                 // this.book.book_press_time = this.book.book_press_time.format('YYYY-MM-DD');
@@ -108,9 +109,7 @@ const Index = {
         },
         uploadImg(file) {
             this.fileList = [{
-                uid: file.file.uid,
-                name: file.file.name,
-                status: file.file.status,
+                ...file.file,
                 url: file.file.response ? host + "/" + file.file.response.data.filename : ""
             }];
             if (file.file.status == "done") {
@@ -140,9 +139,6 @@ const Index = {
     },
     render() {
         const { getFieldDecorator } = this.form;
-        const book = this.book;
-        console.log(book);
-        var book_name = book.book_name;
         return <Modal
             title="配置图书"
             visible={this.showAdd}
@@ -155,7 +151,7 @@ const Index = {
             <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} class="ant-advanced-search-form">
                 <Form.Item label="图书名称">
                     {getFieldDecorator("book_name", {
-                        initialValue: book_name || "",
+                        initialValue: this.book.book_name || "",
                         rules: [
                             {
                                 required: true,
@@ -329,11 +325,11 @@ const Index = {
                 </Form.Item>
                 <Form.Item label="上下架">
                     {getFieldDecorator("book_status", {
-                        initialValue: this.book.book_status || "2",
+                        initialValue: this.book.book_status || "0",
                     })(
                         <Select>
                             <Option value="1">上架</Option>
-                            <Option value="2">下架</Option>
+                            <Option value="0">下架</Option>
                         </Select>
                     )}
                 </Form.Item>
