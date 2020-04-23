@@ -1,7 +1,8 @@
 import './index.scss';
-import { Button, Input, Table, message, Switch } from 'ant-design-vue';
+import { Button, Input, Table, message, Switch,Icon,Popover } from 'ant-design-vue';
 import SearchBar from "@/components/SearchBar";
 import SetBook from "./set-book";
+import moment from 'moment';
 const Index = {
     data() {
         return {
@@ -58,6 +59,9 @@ const Index = {
                 this.reset();
             })
         },
+        changeStatus(id,status){
+            
+        },
         upload(id) {
 
         }
@@ -78,6 +82,7 @@ const Index = {
             {
                 title: '序号',
                 dataIndex: 'xh',
+                width:"70px",
                 customRender: (text, record, index) => {
                     return index + 1
                 }
@@ -100,7 +105,12 @@ const Index = {
             },
             {
                 title: '封皮图',
-                dataIndex: 'book_img'
+                dataIndex: 'book_img',
+                customRender: (text, record, index) => {
+                    return <Popover content={
+                        <img src={host+"/"+text}/>
+                    }><img src={host+"/"+text} width="40px" style="max-height:40px"/></Popover>
+                }
             },
             {
                 title: '作者',
@@ -116,7 +126,10 @@ const Index = {
             },
             {
                 title: '出版时间',
-                dataIndex: 'book_press_time'
+                dataIndex: 'book_press_time',
+                customRender: (text, record, index) => {
+                    return moment(text).format('YYYY-MM-DD');
+                }
             },
             {
                 title: '商品编号',
@@ -124,7 +137,7 @@ const Index = {
             },
             {
                 title: '图书类别',
-                dataIndex: 'book_type'
+                dataIndex: 'book_type_text'
             },
             {
                 title: '备注',
@@ -134,19 +147,23 @@ const Index = {
                 title: '上下架',
                 dataIndex: 'book_status',
                 customRender: (text, record, index) => {
-                    return <Switch checkedChildren="上架" unCheckedChildren="下架" checked={text == 1} onChange={onChange} />
+                    return <Switch checkedChildren="上架" unCheckedChildren="下架" checked={text == 1} onChange={this.changeStatus.bind(this,record.id,text )} />
                 }
             },
             {
                 title: '发布时间',
-                dataIndex: 'book_publish_time'
+                dataIndex: 'book_publish_time',
+                customRender: (text, record, index) => {
+                    return moment(text).format('YYYY-MM-DD');
+                }
             },
             {
                 title: '操作',
                 dataIndex: 'id',
+                width:"300px",
                 customRender: (text, record, index) => {
                     return <span>
-                        <button class="custom-btn-blue custom-btn-small" onClick={this.updateBook.bind(this, record.id)}>编辑</button>
+                        <button class="custom-btn-green custom-btn-small" onClick={this.updateBook.bind(this, record.id)}>编辑</button>
                         <button class="custom-btn-blue custom-btn-small" onClick={this.upload.bind(this, record.id)}>图片上传</button>
                         <button class="custom-btn-red custom-btn-small" onClick={this.delete.bind(this, record.id)}>删除</button>
                     </span>
@@ -157,8 +174,8 @@ const Index = {
             <SearchBar option={option} search={this.onSearch} reset={this.reset} customBtn={[
                 <Button type="primary" style="margin-left:8px" onClick={this.addBook}>新增</Button>
             ]} />
-            <Table dataSource={this.dataSource} bordered columns={columns} style="padding:10px;" rowKey={record => record.id} scroll={{ x: 1800 }} />
-            <SetBook ref="setbook" />
+            <Table dataSource={this.dataSource} bordered columns={columns} style="padding:10px;" rowKey={record => record.id} scroll={{ x: 2000 }} />
+            <SetBook ref="setbook" reload={this.reset}/>
         </div>
     }
 };

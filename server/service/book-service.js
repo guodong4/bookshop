@@ -50,7 +50,8 @@ Object.assign(Index.prototype, {
         })
     },
     save: async function (req, res) {
-        var result = await Book.create({ ...req.body, id: uuid.v1() });
+        console.log(req.body);
+        var result = await Book.create({ ...req.body, id: uuid.v1(),book_publish_time:new Date() });
         return {
             code: 1,
             data: result.dataValues,

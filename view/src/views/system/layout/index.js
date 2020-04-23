@@ -16,12 +16,12 @@ const Index = {
     data() {
         return {
             menu_item: "1-1",
-            systemrule: "1,1-1,1-2,1-3,2,3,4,5,6,7,6-1,6-2".split(","),
+            systemrule: [],
             user: {}
         };
     },
     mounted() {
-        //this.checkLogin();
+        this.checkLogin();
     },
     methods: {
         checkLogin() {
@@ -113,7 +113,7 @@ const Index = {
                             this.systemrule.indexOf("3") > -1 ? <Menu.Item key="3">
                                 <Icon type="ordered-list" />
                                 <span>订单管理</span>
-                            </Menu.Item> : ""
+                            </Menu.Item> : "" 
                         }
                         {
                             this.systemrule.indexOf("4") > -1 ? <Menu.Item key="4">

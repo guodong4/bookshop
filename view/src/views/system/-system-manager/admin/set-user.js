@@ -60,6 +60,7 @@ const Index = {
             });
         },
         handleCancel() {
+            this.form.resetFields();
             this.showAdd = false;
         }
     },

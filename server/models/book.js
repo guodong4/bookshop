@@ -84,7 +84,7 @@ module.exports = db.define('t_books',
 			allowNull: true
 		},
 		//book_publish_time
-		book_remarks: {
+		book_publish_time: {
 			type: Sequelize.DATE,
 			allowNull: true
 		}
