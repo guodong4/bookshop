@@ -15,14 +15,14 @@ const Index = {
             $ajax({
                 url: "/bookType/findAll",
             }).then(data => {
-                var parentArr = data.rows.filter(arr => arr.parent == null);
+                var parentArr = data.filter(arr => arr.parent == null);
                 parentArr.map(arr => {
                     this.dataSource.push({
                         id: arr.id,
                         type1: arr.type,
                         type2: ""
                     })
-                    data.rows.map(item => {
+                    data.map(item => {
                         if (item.parent == arr.id) {
                             this.dataSource.push({
                                 id: item.id,

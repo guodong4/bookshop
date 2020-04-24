@@ -1,4 +1,4 @@
-var Model = require('../models/swoing');
+var Model = require('../models/special');
 var Sequelize = require('sequelize');
 const uuid = require('node-uuid');
 var Op = Sequelize.Op;

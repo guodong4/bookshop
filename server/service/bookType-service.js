@@ -14,6 +14,15 @@ Object.assign(Index.prototype, {
         return list;
     },
     save: async function (req, res) {
+        if(!req.body.parent){
+            var booktype = await BookType.findAll({ where: { type:req.body.type } });
+            if(booktype.length!=0){
+                return {
+                    code: 0,
+                    msg: "一级类别【"+req.body.type+"】已经存在"
+                }
+            }
+        }
         var result = await BookType.create({ ...req.body, id: uuid.v1() });
         return {
             code: 1,

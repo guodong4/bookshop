@@ -1,4 +1,4 @@
-var Users = require('../models/users');
+var Model = require('../models/users');
 var Sequelize = require('sequelize');
 const uuid = require('node-uuid');
 var Op = Sequelize.Op;
@@ -14,7 +14,7 @@ Object.assign(Index.prototype, {
         var telphone = req.body.telphone || "";
         var pageSize = req.body.pageSize ? Number(req.body.pageSize) : 10;
         var page = req.body.page ? Number(req.body.page) : 1;
-        var list = await Users.findAndCountAll({
+        var list = await Model.findAndCountAll({
             offset: pageSize * (page - 1),
             limit: pageSize,
             where: {
@@ -29,7 +29,7 @@ Object.assign(Index.prototype, {
         };
     },
     save: async function (req, res) {
-        var user = await Users.findAll({ where: { username:req.body.username} });
+        var user = await Model.findAll({ where: { username:req.body.username} });
         if(user.length!==0){
             return {
                 code:0,
@@ -37,7 +37,7 @@ Object.assign(Index.prototype, {
                 msg:"已经存在账号为"+req.body.username
             };
         }else{
-            var result = await Users.create({...req.body,id:uuid.v1()});
+            var result = await Model.create({...req.body,id:uuid.v1()});
             return {
                 code:1,
                 data:result.dataValues,
@@ -47,7 +47,7 @@ Object.assign(Index.prototype, {
     },
     update: async function (req, res) {
         var id = req.body.id;
-        await Users.update({...req.body},{ where: {id} });
+        await Model.update({...req.body},{ where: {id} });
         return {
             code:1,
             msg:"修改成功",
@@ -55,7 +55,7 @@ Object.assign(Index.prototype, {
     },
     updatePass: async function (req, res) {
         var id = req.body.id;
-        await Users.update({password:req.body.password},{ where: {id} });
+        await Model.update({password:req.body.password},{ where: {id} });
         return {
             code:1,
             msg:"修改成功",
@@ -63,7 +63,7 @@ Object.assign(Index.prototype, {
     },
     findOne: async function (req, res) {
         var id = req.body.id;
-        var result = await Users.findAll({ where: { id} });
+        var result = await Model.findAll({ where: { id} });
         return {
             code:1,
             data:result[0].dataValues,
@@ -71,7 +71,7 @@ Object.assign(Index.prototype, {
     },
     delete: async function (req, res) {
         var id = req.body.id;
-        await Users.destroy({ where: { id } })
+        await Model.destroy({ where: { id } })
         return {
             code:1,
             msg:"删除成功"
@@ -80,14 +80,14 @@ Object.assign(Index.prototype, {
     saveRule: async function (req, res) {
         var id = req.body.id;
         var systemrule = req.body.systemrule;
-        await Users.update({systemrule},{ where: {id} });
+        await Model.update({systemrule},{ where: {id} });
         return {
             code:1,
             msg:"分配成功"
         };
     },
     login: async function (req, res) {
-        var result = await Users.findAll({ where: req.body });
+        var result = await Model.findAll({ where: req.body });
         if(result.length!==0){
             if(result[0].username===req.body.username&&result[0].password===req.body.password){
                 return {

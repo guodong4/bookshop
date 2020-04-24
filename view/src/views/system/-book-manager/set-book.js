@@ -23,13 +23,13 @@ const Index = {
             $ajax({
                 url: "/bookType/findAll",
             }).then(data => {
-                var parentArr = data.rows.filter(arr => arr.parent == null);
+                var parentArr = data.filter(arr => arr.parent == null);
                 this.bookType = parentArr.map(arr => {
                     var bookType = {
                         id: arr.id,
                         type: arr.type
                     };
-                    data.rows.map(item => {
+                    data.map(item => {
                         if (item.parent == arr.id) {
                             bookType.child = bookType.child || [];
                             bookType.child.push({
@@ -306,7 +306,7 @@ const Index = {
                             </Menu>
                         }>
                             <a class="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                {book.book_type_text || "请选择分类"} <Icon type="down" />
+                                {this.book.book_type_text || "请选择分类"} <Icon type="down" />
                             </a>
                         </Dropdown>
                     )}

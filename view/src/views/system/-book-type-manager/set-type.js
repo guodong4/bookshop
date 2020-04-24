@@ -8,7 +8,7 @@ const Index = {
             showModal: false,
             bookTypeId: "",
             type: "",
-            bookType:{}
+            bookType: {}
         };
     },
     mounted() {
@@ -17,7 +17,7 @@ const Index = {
         show(id, type) {
             this.bookTypeId = id || "";
             this.type = type || "";
-            if (id&&this.type=="") {
+            if (id && this.type == "") {
                 this.getData(id);
             }
             this.showModal = true;
@@ -43,16 +43,18 @@ const Index = {
                         }).then(data => {
                             if (data.code == 1) {
                                 this.bookType = data.data;
+                                message.success(data.msg);
+                                this.reload();
+                                this.handleCancel();
+                            }else{
+                                message.error(data.msg);
                             }
-                            message.success(data.msg);
-                            this.reload();
-                            this.handleCancel();
                         })
                     } else {
                         if (this.type == "addChild") {
                             $ajax({
                                 url: "/bookType/save",
-                                data: {...values,parent:this.bookTypeId }
+                                data: { ...values, parent: this.bookTypeId }
                             }).then(data => {
                                 if (data.code == 1) {
                                     this.bookType = data.data;
@@ -76,7 +78,7 @@ const Index = {
             });
         },
         handleCancel() {
-            this.bookType={};
+            this.bookType = {};
             this.showModal = false;
         }
     },

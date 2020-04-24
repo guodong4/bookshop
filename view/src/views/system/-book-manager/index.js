@@ -1,5 +1,5 @@
 import './index.scss';
-import { Button, Input, Table, message, Switch,Icon,Popover } from 'ant-design-vue';
+import { Button, Input, Table, message, Switch, Icon, Popover } from 'ant-design-vue';
 import SearchBar from "@/components/SearchBar";
 import SetBook from "./set-book";
 import UploadImg from "./upload-img";
@@ -8,7 +8,7 @@ const Index = {
     data() {
         return {
             dataSource: [],
-            
+
             option: {
                 page: 1,
                 pageSize: 10
@@ -60,15 +60,15 @@ const Index = {
                 this.reset();
             })
         },
-        changeStatus(id,status){
+        changeStatus(id, status) {
             $ajax({
-                url:"/book/update",
-                data:{
-                    book_status:status==1?0:1,
+                url: "/book/update",
+                data: {
+                    book_status: status == 1 ? 0 : 1,
                     id
                 }
-            }).then(data=>{
-                if(data.code==1){
+            }).then(data => {
+                if (data.code == 1) {
                     this.getData(this.option);
                 }
             })
@@ -79,6 +79,11 @@ const Index = {
     },
     render() {
         var option = [
+            {
+                name: "id",
+                label: "图书ID",
+                components: <Input />
+            },
             {
                 name: "book_name",
                 label: "图书名称",
@@ -91,11 +96,10 @@ const Index = {
         ];
         const columns = [
             {
-                title: '序号',
-                dataIndex: 'xh',
-                width:"70px",
+                title: 'ID',
+                dataIndex: 'id',
                 customRender: (text, record, index) => {
-                    return index + 1
+                    return <Popover content={text}>{text.substring(0, 5)}...</Popover>
                 }
             },
             {
@@ -104,23 +108,28 @@ const Index = {
             },
             {
                 title: '图书简介',
-                dataIndex: 'book_desc'
+                dataIndex: 'book_desc',
+                customRender: (text, record, index) => {
+                    return <Popover content={text}>{text.substring(0, 5)}...</Popover>
+                }
             },
             {
                 title: '现价',
-                dataIndex: 'book_price'
+                dataIndex: 'book_price',
+                width:70
             },
             {
                 title: '原价',
-                dataIndex: 'book_old_price'
+                dataIndex: 'book_old_price',
+                width:70
             },
             {
                 title: '封皮图',
                 dataIndex: 'book_img',
                 customRender: (text, record, index) => {
                     return <Popover content={
-                        <img src={host+"/"+text}/>
-                    }><img src={host+"/"+text} width="40px" style="max-height:40px"/></Popover>
+                        <img src={host + "/" + text} style="max-height:300px;max-width:300px" />
+                    }><img src={host + "/" + text} width="40px" style="max-height:40px" /></Popover>
                 }
             },
             {
@@ -152,13 +161,16 @@ const Index = {
             },
             {
                 title: '备注',
-                dataIndex: 'book_remarks'
+                dataIndex: 'book_remarks',
+                customRender: (text, record, index) => {
+                    return <Popover content={text}>{text.substring(0, 5)}...</Popover>
+                }
             },
             {
                 title: '上下架',
                 dataIndex: 'book_status',
                 customRender: (text, record, index) => {
-                    return <Switch checkedChildren="上架" unCheckedChildren="下架" checked={text == 1} onChange={this.changeStatus.bind(this,record.id,text )} />
+                    return <Switch checkedChildren="上架" unCheckedChildren="下架" checked={text == 1} onChange={this.changeStatus.bind(this, record.id, text)} />
                 }
             },
             {
@@ -170,8 +182,8 @@ const Index = {
             },
             {
                 title: '操作',
-                dataIndex: 'id',
-                width:"300px",
+                dataIndex: 'op',
+                width: "300px",
                 customRender: (text, record, index) => {
                     return <span>
                         <button class="custom-btn-green custom-btn-small" onClick={this.updateBook.bind(this, record.id)}>编辑</button>
@@ -186,8 +198,8 @@ const Index = {
                 <Button type="primary" style="margin-left:8px" onClick={this.addBook}>新增</Button>
             ]} />
             <Table dataSource={this.dataSource} bordered columns={columns} style="padding:10px;" rowKey={record => record.id} scroll={{ x: 2000 }} />
-            <SetBook ref="setbook" reload={this.reset}/>
-            <UploadImg ref="uploadimg" reload={this.reset}/>
+            <SetBook ref="setbook" reload={this.reset} />
+            <UploadImg ref="uploadimg" reload={this.reset} />
         </div>
     }
 };

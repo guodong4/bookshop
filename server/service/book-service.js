@@ -12,6 +12,7 @@ Object.assign(Index.prototype, {
         return this[method](req, res);
     },
     findAll: async function (req, res) {
+        var id = req.body.id || "";
         var book_name = req.body.book_name || "";
         var book_author = req.body.book_author || "";
         var pageSize = req.body.pageSize ? Number(req.body.pageSize) : 10;
@@ -22,6 +23,7 @@ Object.assign(Index.prototype, {
             where: {
                 book_name: { [Op.like]: '%' + book_name + '%' },
                 book_author: { [Op.like]: '%' + book_author + '%' },
+                id: { [Op.like]: '%' + id + '%' },
             }
         });
         return {
@@ -35,6 +37,7 @@ Object.assign(Index.prototype, {
         var list = await Book.findAll({
             where: {
                 book_name: { [Op.like]: book_name + '%' },
+                book_status:1
             }
         });
         return list;

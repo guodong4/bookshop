@@ -47,6 +47,9 @@ const Index = {
                 this.reset();
             })
         },
+        update(id){
+            this.$refs.setimg.$children[0].show(id);
+        },
         changeStatus(id,status){
             $ajax({
                 url:"/swoing/update",
@@ -84,7 +87,7 @@ const Index = {
                 dataIndex: 'banner_img',
                 customRender: (text, record, index) => {
                     return <Popover content={
-                        <img src={host+"/"+text}/>
+                        <img src={host+"/"+text}  style="max-height:300px;max-width:300px"/>
                     }><img src={host+"/"+text} width="40px" style="max-height:40px"/></Popover>
                 }
             },
@@ -101,6 +104,7 @@ const Index = {
                 width:"300px",
                 customRender: (text, record, index) => {
                     return <span>
+                        <button class="custom-btn-blue custom-btn-small" onClick={this.update.bind(this, record.id)}>编辑</button>
                         <button class="custom-btn-red custom-btn-small" onClick={this.delete.bind(this, record.id)}>删除</button>
                     </span>
                 }

@@ -10,16 +10,15 @@ const Index = {
         return {
             showAdd: false,
             booklist: [],
-            fileList: [],
-            swoingId: "",
-            swoing: {},
+            bookId: "",
+            book: {},
             value: ""
         };
     },
 
     methods: {
         show(id) {
-            this.swoingId = id || "";
+            this.bookId = id || "";
             if (id) {
                 this.getBook(id);
             }
@@ -27,40 +26,35 @@ const Index = {
         },
         getBook(id) {
             $ajax({
-                url: "/swoing/findOne",
+                url: "/special/findOne",
                 data: { id }
             }).then(data => {
                 if (data.code == 1) {
-                    this.swoing = data.data;
-                    this.swoingId = data.data.id;
-                    this.value = this.swoing.book_name;
-                    this.fileList = [{
-                        uid: data.data.id + "1",
-                        name: data.data.banner_img,
-                        status: "done",
-                        url: host + "/" + data.data.banner_img
-                    }];
+                    this.book = data.data;
+                    this.bookId = data.data.id;
+                    this.value = data.data.book_name;
                 }
             })
         },
         handleOk() {
             this.form.validateFields((err, values) => {
                 if (!err) {
-                    values.book_name = this.swoing.book_name;
-                    values.book_id = this.swoing.book_id;
-                    values.banner_img =this.swoing.banner_img;
-                    if(!values.book_name||!values.book_id||!values.banner_img){
+                    console.log(this.book);
+                    values.book_name = this.book.book_name;
+                    values.book_id = this.book.id;
+                    values.book_img = this.book.book_img;
+                    if(!values.book_name||!values.book_id){
                         message.error("图书信息不能有空");
                         return;
                     }
-                    if (this.swoingId == "") {
+                    if (this.bookId == "") {
                         $ajax({
-                            url: "/swoing/save",
+                            url: "/special/save",
                             data: values
                         }).then(data => {
                             if (data.code == 1) {
-                                this.swoing = data.data;
-                                this.swoingId = data.data.id;
+                                this.book = data.data;
+                                this.bookId = data.data.id;
                             }
                             this.handleCancel()
                             message.success(data.msg);
@@ -68,8 +62,8 @@ const Index = {
                         })
                     } else {
                         $ajax({
-                            url: "/swoing/update",
-                            data: { ...values, id: this.swoingId }
+                            url: "/special/update",
+                            data: { ...values, id: this.bookId }
                         }).then(data => {
                             this.handleCancel()
                             message.success(data.msg);
@@ -81,27 +75,11 @@ const Index = {
                 }
             });
         },
-        uploadImg(file) {
-            this.fileList = [{
-                ...file.file,
-                url: file.file.response ? host + "/" + file.file.response.data.filename : ""
-            }];
-            if (file.file.status == "done") {
-                this.swoing.banner_img = file.file.response.data.filename;
-            }
-            if (file.file.status == "removed") {
-                this.fileList = [];
-                this.swoing.banner_img = "";
-            }
-        },
-        preview(file) {
-            var win = window.open("", "img");
-            win.document.write("<img src='" + file.url + "' style='margin:0 auto'/>")
-        },
+        
         handleCancel() {
             this.form.resetFields();
-            this.swoing = {};
-            this.swoingId = "";
+            this.book = {};
+            this.bookId = "";
             this.fileList = [];
             this.showAdd = false;
             this.value="";
@@ -119,17 +97,16 @@ const Index = {
             this.booklist.map(arr => {
                 if (arr.id == book_id) {
                     this.value = arr.book_name;
-                    this.swoing.book_name = arr.book_name;
-                    this.swoing.book_id = book_id;
+                    this.book = arr;
                 }
             })
         }
     },
     render() {
         const { getFieldDecorator } = this.form;
-        const swoing = this.swoing;
+        const book = this.book;
         return <Modal
-            title="配置轮播图"
+            title="配置今日特价"
             visible={this.showAdd}
             onOk={this.handleOk}
             onCancel={this.handleCancel}
@@ -156,26 +133,9 @@ const Index = {
                         }
                     </Select>
                 </Form.Item>
-                <Form.Item label="轮播图">
-                    <Upload
-                        listType="picture-card"
-                        showUploadList={true}
-                        onPreview={this.preview}
-                        fileList={this.fileList}
-                        action={host + "/book/upload"}
-                        onChange={this.uploadImg}
-                    >
-                        {
-                            <div>
-                                <Icon type='plus' />
-                                <div class="ant-upload-text">上传</div>
-                            </div>
-                        }
-                    </Upload>
-                </Form.Item>
                 <Form.Item label="上下架">
                     {getFieldDecorator("status", {
-                        initialValue: swoing.status || "0",
+                        initialValue: book.status || "0",
                     })(
                         <Select>
                             <Option value="1">上架</Option>

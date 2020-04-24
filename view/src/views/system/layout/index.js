@@ -15,7 +15,7 @@ import TodaySpecial from "../-web-manager/today-special";
 const Index = {
     data() {
         return {
-            menu_item: "1-1",
+            menu_item: "2",
             systemrule: [],
             user: {}
         };
@@ -80,23 +80,8 @@ const Index = {
             </Header>
             <Layout style="min-height:800px">
                 <Sider>
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} onClick={this.selectItem}>
-                        {
-                            this.systemrule.indexOf("1") > -1 ?
-                                <SubMenu
-                                    key="1"
-                                    title={
-                                        <span>
-                                            <Icon type="hdd" />
-                                            <span>网站管理</span>
-                                        </span>
-                                    }
-                                >
-                                    {this.systemrule.indexOf("1-1") > -1 ? <Menu.Item key="1-1">轮播图管理</Menu.Item> : ""}
-                                    {this.systemrule.indexOf("1-2") > -1 ? <Menu.Item key="1-2">今日特价</Menu.Item> : ""}
-                                    {this.systemrule.indexOf("1-3") > -1 ? <Menu.Item key="1-3">广告位</Menu.Item> : ""}
-                                </SubMenu> : ""
-                        }
+                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']} onClick={this.selectItem}>
+                        
                         {
                             this.systemrule.indexOf("2") > -1 ? <Menu.Item key="2">
                                 <Icon type="read" />
@@ -126,6 +111,22 @@ const Index = {
                                 <Icon type="user" />
                                 <span>会员管理</span>
                             </Menu.Item> : ""
+                        }
+                        {
+                            this.systemrule.indexOf("1") > -1 ?
+                                <SubMenu
+                                    key="1"
+                                    title={
+                                        <span>
+                                            <Icon type="hdd" />
+                                            <span>网站管理</span>
+                                        </span>
+                                    }
+                                >
+                                    {this.systemrule.indexOf("1-1") > -1 ? <Menu.Item key="1-1">轮播图管理</Menu.Item> : ""}
+                                    {this.systemrule.indexOf("1-2") > -1 ? <Menu.Item key="1-2">今日特价</Menu.Item> : ""}
+                                    {this.systemrule.indexOf("1-3") > -1 ? <Menu.Item key="1-3">广告位</Menu.Item> : ""}
+                                </SubMenu> : ""
                         }
                         {
                             this.systemrule.indexOf("6") > -1 ?
