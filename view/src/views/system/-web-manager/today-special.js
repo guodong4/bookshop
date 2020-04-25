@@ -84,7 +84,7 @@ const Index = {
             },
             {
                 title: '图片',
-                dataIndex: 'banner_img',
+                dataIndex: 'book_img',
                 customRender: (text, record, index) => {
                     return <Popover content={
                         <img src={host+"/"+text}  style="max-height:300px;max-width:300px"/>

@@ -16,8 +16,15 @@ module.exports = db.define('t_today_specials',
 			type: Sequelize.STRING(255),
 			allowNull: true
 		},
+		book_img: {
+			type: Sequelize.STRING(255),
+			allowNull: true
+		},
 		status:{
 			type: Sequelize.STRING(2),
+			allowNull: true
+		},book_desc: {
+			type: Sequelize.STRING(255),
 			allowNull: true
 		}
     }, {

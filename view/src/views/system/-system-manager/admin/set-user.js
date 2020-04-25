@@ -1,4 +1,3 @@
-import './index.scss';
 import { Form, Row, Col, Input, Button, message, Modal } from 'ant-design-vue';
 
 const Index = {

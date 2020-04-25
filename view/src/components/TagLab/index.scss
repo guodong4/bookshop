@@ -1,0 +1,52 @@
+.taglab{
+    ul,li {
+        margin: 0px;
+        padding: 0px;
+        list-style-type: none;
+    }
+    li{
+        width:auto;
+        display: inline-block;
+        height:30px;
+        border:1px solid #ccc;
+        margin:5px;
+        position: relative;
+        transform: all .2s;
+        .tag{
+            float: left;
+            text-align: center;
+            height:30px;
+            line-height: 30px;
+            min-width:40px;
+            padding:0 10px;
+            max-width:200px;
+            overflow: hidden;
+        }
+        .close{
+            float:left;
+            width:10px;
+            border-radius:10px;
+            height:10px;
+            cursor:pointer;
+            color:#fff;
+            background: #ca0e0e;
+            text-align: right;
+            line-height: 8px;
+            margin-right:0px;
+            position: absolute;
+            top:-3px;
+            right:-3px;
+        }
+    }
+    .clickBtn{
+        cursor:pointer;
+    }
+    .clickBtn:hover{
+        background:linear-gradient(#00b8ff, #0a8ff5);
+        color:#fff;
+    }
+    .active{
+        background:linear-gradient(#00b8ff, #0a8ff5);
+        color:#fff;
+    }
+}

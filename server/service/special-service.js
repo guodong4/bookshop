@@ -22,8 +22,14 @@ Object.assign(Index.prototype, {
             page
         };
     },
-
+    findAllWeb: async function (req, res) {
+        var list = await Model.findAll({
+            where:{status:1}
+        });
+        return list;
+    },
     save: async function (req, res) {
+        var id = req.body.bood_id;//需要查询一下书籍的信息
         var result = await Model.create({ ...req.body, id: uuid.v1() });
         return {
             code: 1,

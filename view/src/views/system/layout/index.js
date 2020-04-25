@@ -3,6 +3,7 @@ import { Layout, Menu, Icon, message } from 'ant-design-vue';
 const { SubMenu } = Menu;
 const { Header, Footer, Sider, Content } = Layout;
 import BookManager from "../-book-manager";
+import ReadManager from "../-read-manager";
 import BookTypeManager from "../-book-type-manager";
 import CommentManager from "../-comment-manager";
 import OrderManager from "../-order-manager";
@@ -48,9 +49,9 @@ const Index = {
         selectItem(data) {
             this.menu_item = data.key;
         },
-        logout(){
+        logout() {
             localStorage.removeItem("user");
-            this.$router.push("/system/login");　
+            this.$router.push("/system/login");
         }
     },
     render() {
@@ -63,6 +64,7 @@ const Index = {
             "4": <CommentManager />,
             "5": <MemberManager />,
             "7": <BookTypeManager />,
+            "8": <ReadManager />,
             "6-1": <Admin />,
             "6-2": <UpdatePass />,
         };
@@ -81,10 +83,10 @@ const Index = {
             <Layout style="min-height:800px">
                 <Sider>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']} onClick={this.selectItem}>
-                        
+
                         {
                             this.systemrule.indexOf("2") > -1 ? <Menu.Item key="2">
-                                <Icon type="read" />
+                                <Icon type="container" />
                                 <span>图书管理</span>
                             </Menu.Item> : ""
                         }
@@ -98,7 +100,7 @@ const Index = {
                             this.systemrule.indexOf("3") > -1 ? <Menu.Item key="3">
                                 <Icon type="ordered-list" />
                                 <span>订单管理</span>
-                            </Menu.Item> : "" 
+                            </Menu.Item> : ""
                         }
                         {
                             this.systemrule.indexOf("4") > -1 ? <Menu.Item key="4">
@@ -110,6 +112,12 @@ const Index = {
                             this.systemrule.indexOf("5") > -1 ? <Menu.Item key="5">
                                 <Icon type="user" />
                                 <span>会员管理</span>
+                            </Menu.Item> : ""
+                        }
+                        {
+                            this.systemrule.indexOf("8") > -1 ? <Menu.Item key="8">
+                                <Icon type="read" />
+                                <span>阅读管理</span>
                             </Menu.Item> : ""
                         }
                         {
@@ -134,7 +142,7 @@ const Index = {
                                     key="6"
                                     title={
                                         <span>
-                                            <Icon type="hdd" />
+                                            <Icon type="setting" />
                                             <span>系统管理</span>
                                         </span>
                                     }

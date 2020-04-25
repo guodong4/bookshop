@@ -43,6 +43,7 @@ const Index = {
                     values.book_name = this.book.book_name;
                     values.book_id = this.book.id;
                     values.book_img = this.book.book_img;
+                    values.book_desc = this.book.book_desc;
                     if(!values.book_name||!values.book_id){
                         message.error("图书信息不能有空");
                         return;
