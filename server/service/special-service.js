@@ -1,4 +1,5 @@
 var Model = require('../models/special');
+var Book = require('../models/book');
 var Sequelize = require('sequelize');
 const uuid = require('node-uuid');
 var Op = Sequelize.Op;
@@ -29,8 +30,12 @@ Object.assign(Index.prototype, {
         return list;
     },
     save: async function (req, res) {
-        var id = req.body.bood_id;//需要查询一下书籍的信息
-        var result = await Model.create({ ...req.body, id: uuid.v1() });
+        var id = req.body.book_id;//需要查询一下书籍的信息
+        console.log(id);
+        var book = await Book.findAll({ where: { id } });
+        var book_price = book[0].book_price;
+        var book_old_price = book[0].book_old_price;
+        var result = await Model.create({ ...req.body,book_price,book_old_price, id: uuid.v1() });
         return {
             code: 1,
             data: result.dataValues,

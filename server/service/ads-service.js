@@ -47,6 +47,10 @@ Object.assign(Index.prototype, {
             data: result[0].dataValues,
         };
     },
+    findAllAds: async function (req, res) {
+        var result = await Model.findAll({ where: { status:1 } });
+        return result;
+    },
     delete: async function (req, res) {
         var id = req.body.id;
         await Model.destroy({ where: { id } })

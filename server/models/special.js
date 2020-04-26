@@ -19,7 +19,16 @@ module.exports = db.define('t_today_specials',
 		book_img: {
 			type: Sequelize.STRING(255),
 			allowNull: true
+        },
+       //原价
+		book_old_price: {
+			type: Sequelize.DECIMAL(10),
+			allowNull: true
 		},
+        book_price: {
+            type: Sequelize.DECIMAL(10),
+			allowNull: true
+        },
 		status:{
 			type: Sequelize.STRING(2),
 			allowNull: true

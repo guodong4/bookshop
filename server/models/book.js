@@ -83,7 +83,7 @@ module.exports = db.define('t_books',
 			type: Sequelize.STRING(2),
 			allowNull: true
 		},
-		//book_publish_time
+		//发布时间
 		book_publish_time: {
 			type: Sequelize.DATE,
 			allowNull: true
