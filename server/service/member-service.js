@@ -26,13 +26,13 @@ Object.assign(Index.prototype, {
             page
         };
     },
-    save: async function (req, res) {
-        var user = await Model.findAll({ where: { username:req.body.username} });
+    register: async function (req, res) {
+        var user = await Model.findAll({ where: { telphone:req.body.telphone} });
         if(user.length!==0){
             return {
                 code:0,
                 data:[],
-                msg:"已经存在账号为"+req.body.username
+                msg:"已经存在手机号为"+req.body.telphone
             };
         }else{
             var result = await Model.create({...req.body,id:uuid.v1()});
@@ -87,7 +87,7 @@ Object.assign(Index.prototype, {
     login: async function (req, res) {
         var result = await Model.findAll({ where: req.body });
         if(result.length!==0){
-            if(result[0].username===req.body.username&&result[0].password===req.body.password){
+            if(result[0].telphone===req.body.telphone&&result[0].password===req.body.password){
                 return {
                     code:1,
                     data:result[0],

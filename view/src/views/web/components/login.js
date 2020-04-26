@@ -5,13 +5,29 @@ const { Option } = Select;
 const Index = {
     data() {
         return {
-            login: false
         };
     },
     mounted() {
 
     },
     methods: {
+        login() {
+            this.form.validateFields((err, values) => {
+                if (!err) {
+                    $ajax({
+                        url: "/member/login",
+                        data: values
+                    }).then(data => {
+                        if (data.code == 1) {
+                            localStorage.setItem("user", JSON.stringify(data.data));
+                            this.$router.push("/system");
+                        } else {
+                            this.msg = data.msg;
+                        }
+                    })
+                }
+            });
+        },
         toLogin() {
             this.login = true;
         },
@@ -21,31 +37,21 @@ const Index = {
     },
     render() {
         const { getFieldDecorator } = this.form;
-        const formItemLayout = {
-            labelCol: {
-                xs: { span: 24 },
-                sm: { span: 8 },
-            },
-            wrapperCol: {
-                xs: { span: 24 },
-                sm: { span: 16 },
-            },
-        };
         return <div class="loginform">
             <Form labelCol={{ span: 8 }} wrapperCol={{ span: 12 }}>
-                <Form.Item label="账号">
-                    {getFieldDecorator('name', {
-                        rules: [{ required: true, message: 'Please input your username!' }],
+                <Form.Item label="手机号">
+                    {getFieldDecorator('telphone', {
+                        rules: [{ required: true, message: '请输入手机号' }],
                     })(
                         <Input
                             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            placeholder="请输入账号"
+                            placeholder="请输入手机号"
                         />,
                     )}
                 </Form.Item>
                 <Form.Item label="密码">
-                    {getFieldDecorator('pass', {
-                        rules: [{ required: true, message: 'Please input your Password!' }],
+                    {getFieldDecorator('password', {
+                        rules: [{ required: true, message: '请输入密码' }],
                     })(
                         <Input
                             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -55,8 +61,8 @@ const Index = {
                 </Form.Item>
             </Form>
             <div style="width:100%;text-align:center">
-                <button class="custom-btn-red">登录</button>
-                <button class="custom-btn-red">重置</button>
+                <button class="custom-btn-red" onClick={this.login}>登录</button>
+                <button class="custom-btn-red" onClick={()=>{this.form.resetFields();}}>重置</button>
             </div>
         </div>
     }

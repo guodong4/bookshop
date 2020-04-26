@@ -34,8 +34,8 @@ Object.assign(Index.prototype, {
     },
     findAllByType: async function (req, res) {
         var book_type = req.body.book_type || "";
-        var where ={book_status:1};
-        if(book_type){
+        var where = { book_status: 1 };
+        if (book_type) {
             where.book_type = book_type
         }
         var pageSize = req.body.pageSize ? Number(req.body.pageSize) : 12;
@@ -56,7 +56,7 @@ Object.assign(Index.prototype, {
         var list = await Book.findAll({
             where: {
                 book_name: { [Op.like]: book_name + '%' },
-                book_status:1
+                book_status: 1
             }
         });
         return list;
@@ -92,7 +92,7 @@ Object.assign(Index.prototype, {
         })
     },
     save: async function (req, res) {
-        var result = await Book.create({ ...req.body, id: uuid.v1(), book_publish_time: new Date() });
+        var result = await Book.create({ ...req.body, id: uuid.v1(), book_publish_time: new Date(),seller_num:0 });
         return {
             code: 1,
             data: result.dataValues,
@@ -124,6 +124,30 @@ Object.assign(Index.prototype, {
             code: 1,
             data: result[0].dataValues,
         };
+    },
+    findNewBook: async function (req, res) {
+        var where = { book_status: 1 };
+        var list = await Book.findAndCountAll({
+            offset: 0,
+            limit: 10,
+            where,
+            order:[
+                ["book_publish_time","desc"]
+            ]
+        });
+        return list;
+    },
+    findBookHot: async function (req, res) {
+        var where = { book_status: 1 };
+        var list = await Book.findAndCountAll({
+            offset: 0,
+            limit: 10,
+            where,
+            order:[
+                ["seller_num","desc"]
+            ]
+        });
+        return list;
     },
     delete: async function (req, res) {
         var id = req.body.id;

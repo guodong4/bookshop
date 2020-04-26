@@ -1,6 +1,6 @@
 import './index.scss';
 import SearchModule from "../components/search";
-import { InputNumber, Icon, Rate } from "ant-design-vue";
+import { InputNumber, Icon, Rate, Pagination } from "ant-design-vue";
 var autoscroll = null;
 const Index = {
     data() {
@@ -8,14 +8,41 @@ const Index = {
             //大图
             bigimg: "src/img/10.jpg",
             //1 详情  2 评价
-            goodstag: 1
+            goodstag: 1,
+            book: {}
         };
     },
     mounted() {
-
+        var id = this.$route.param.id;
+        this.getBook(id);
+        this.getBookImg(id);
+        this.getBookImg(id);
+        this.getComment(id);
     },
     methods: {
-       
+        getBook(id) {
+            $ajax({
+                url: "/book/findOne",
+                data: { id }
+            }).then(data => {
+                if (data.code == 1) {
+                    this.book = data.data;
+                }
+            })
+        },
+        getBookImg(id) {
+            $ajax({
+                url: "/book/findBookImg",
+                data: { id }
+            }).then(data => {
+                if (data.code == 1) {
+                    this.bookImg = data.data;
+                }
+            })
+        },
+        getComment(id) {
+
+        }
     },
     render() {
         return <div class="book-body">
@@ -85,7 +112,7 @@ const Index = {
                                                 <div class="comment-date">2020-09-09 12:22:22</div>
                                             </div>
                                             <div class="comment-author">
-                                                <div class="author-photo"><img src="src/img/11.jpg"/></div>
+                                                <div class="author-photo"><img src="src/img/11.jpg" /></div>
                                                 <div class="author-name">张三</div>
                                             </div>
                                             <div style="clear:both"></div>
@@ -95,6 +122,9 @@ const Index = {
                                         </div>
                                     </div>)
                                 }
+                                <div style="height:50px;text-align:center;line-height:50px;">
+                                    <Pagination defaultCurrent={1} total={50} style="height:50px;line-height:50px;"/>
+                                </div>
                             </div>
                     }
                 </div>

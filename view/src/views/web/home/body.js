@@ -4,7 +4,7 @@ import $ from "jquery";
 import BroadCast from "@/components/broadcast/";
 import "@/components/broadcast/index.css";
 import SearchModule from "../components/search"
-
+import moment from 'moment';
 var autoscroll = null;
 const Index = {
     data() {
@@ -22,7 +22,9 @@ const Index = {
             bookList: [],
             count: 0,
             specialList: [],
-            adsList: []
+            adsList: [],
+            hotList: [],
+            newBookList: []
         };
     },
     mounted() {
@@ -36,8 +38,26 @@ const Index = {
         this.getSpecial();
         //广告
         this.getAds();
+        //热销榜
+        this.getHot();
+        //新书
+        this.getNewBookList()
     },
     methods: {
+        getNewBookList() {
+            $ajax({
+                url: "/book/findNewBook"
+            }).then(data => {
+                this.newBookList = data.rows;
+            })
+        },
+        getHot() {
+            $ajax({
+                url: "/book/findBookHot"
+            }).then(data => {
+                this.hotList = data.rows;
+            })
+        },
         //今日特价
         getAds() {
             $ajax({
@@ -307,7 +327,7 @@ const Index = {
                                 this.adsList.filter(arr => arr.type == 2).map(arr => {
                                     return <li>
                                         <a href={arr.url}>
-                                        <img src={host+"/"+arr.img_path} />
+                                            <img src={host + "/" + arr.img_path} />
                                         </a>
                                     </li>
                                 })
@@ -326,10 +346,12 @@ const Index = {
                                 </div>
                                 <div class="hot-filed">
                                     {
-                                        "1234567811".split("").map((arr, index) => {
+                                        this.hotList.map((arr, index) => {
                                             return <div>
                                                 <font color={index == 0 || index == 1 || index == 2 ? "red" : ""}>{index + 1}</font>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    《金瓶梅与猪八戒》       作者：罗贯中            销量：10000</div>
+                                                <a href={"/detail?id="+arr.id}>《{arr.book_name}》</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float:right">|&nbsp;&nbsp;&nbsp;&nbsp;
+                                                作者：{arr.book_author}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;销量：{arr.seller_num||0}</span>
+                                                </div>
                                         })
                                     }
                                 </div>
@@ -340,10 +362,11 @@ const Index = {
                                 </div>
                                 <div class="hot-filed">
                                     {
-                                        "1234567811".split("").map((arr, index) => {
+                                        this.newBookList.map((arr, index) => {
                                             return <div>
                                                 <font color={index == 0 || index == 1 || index == 2 ? "red" : ""}>{index + 1}</font>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    《金瓶梅与猪八戒》       作者：罗贯中            销量：10000</div>
+                                                <a href={"/detail?id="+arr.id}>《{arr.book_name}》</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float:right">|&nbsp;&nbsp;&nbsp;&nbsp;
+                                                作者：{arr.book_author}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;上架时间：{moment(arr.book_publish_time).format('YYYY-MM-DD')}</span></div>
                                         })
                                     }
                                 </div>

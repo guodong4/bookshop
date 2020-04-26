@@ -46,7 +46,7 @@ const Index = {
                                 message.success(data.msg);
                                 this.reload();
                                 this.handleCancel();
-                            }else{
+                            } else {
                                 message.error(data.msg);
                             }
                         })
@@ -78,7 +78,10 @@ const Index = {
             });
         },
         handleCancel() {
-            this.bookType = {};
+            this.form.resetFields();
+            this.bookTypeId = "",
+                this.type = "",
+                this.bookType = {};
             this.showModal = false;
         }
     },

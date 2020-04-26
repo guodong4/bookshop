@@ -31,7 +31,6 @@ Object.assign(Index.prototype, {
     },
     save: async function (req, res) {
         var id = req.body.book_id;//需要查询一下书籍的信息
-        console.log(id);
         var book = await Book.findAll({ where: { id } });
         var book_price = book[0].book_price;
         var book_old_price = book[0].book_old_price;

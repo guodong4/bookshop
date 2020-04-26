@@ -87,6 +87,11 @@ module.exports = db.define('t_books',
 		book_publish_time: {
 			type: Sequelize.DATE,
 			allowNull: true
+		},
+		//销售数量
+		seller_num:{
+			type: Sequelize.INTEGER,
+			allowNull: true
 		}
     }, {
 		timestamps: false

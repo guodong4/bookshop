@@ -7,11 +7,13 @@ import RegisterPage from "./register";
 const Index = {
     data() {
         return {
-            login: false
+            login: false,
+            member: null
         };
     },
     mounted() {
-
+        var member = localStorage.getItem("member");
+        this.member = JSON.parse(member);
     },
     methods: {
         toLogin() {
@@ -27,27 +29,29 @@ const Index = {
                 <span class="left">
                     <Icon type="read" /> &nbsp;欢迎光临 welcome to our shop
                 </span>
-                <span class="right">
-                    <Icon type="user" />&nbsp;&nbsp;<a href="javascript:;" onClick={this.toLogin}>登录</a>&nbsp;/&nbsp;<a>注册</a>
-                </span>
-                <span class="right">
-                    admin&nbsp;&nbsp;<a>我的订单</a>&nbsp;&nbsp;<Icon type="user" />&nbsp;&nbsp;<a href="/myself">个人中心</a>&nbsp;/&nbsp;<a>退出</a>
-                </span>
-
+                {
+                    this.member ?
+                        <span class="right">
+                            admin&nbsp;&nbsp;&nbsp;&nbsp;<Icon type="user" />&nbsp;&nbsp;<a href="/myself">个人中心</a>&nbsp;/&nbsp;<a>退出</a>
+                        </span> :
+                        <span class="right">
+                            <Icon type="user" />&nbsp;&nbsp;<a href="javascript:;" onClick={this.toLogin}>登录</a>
+                        </span>
+                }
             </div>
             <Drawer
                 title={null}
                 width={420}
                 onClose={this.onClose}
                 visible={this.login}
-                bodyStyle={{ paddingBottom: 80}}
+                bodyStyle={{ paddingBottom: 80 }}
             >
                 <Tabs defaultActiveKey="1" >
                     <TabPane tab="登录账号" key="1">
-                        <LoginPage/>
+                        <LoginPage />
                     </TabPane>
                     <TabPane tab="注册新账号" key="2">
-                        <RegisterPage/>
+                        <RegisterPage />
                     </TabPane>
                 </Tabs>
             </Drawer>

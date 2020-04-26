@@ -25,7 +25,22 @@ Object.assign(Index.prototype, {
             page
         };
     },
-
+    findAll: async function (req, res) {
+        var pageSize = req.body.pageSize ? Number(req.body.pageSize) : 10;
+        var page = req.body.page ? Number(req.body.page) : 1;
+        var list = await Model.findAndCountAll({
+            offset: pageSize * (page - 1),
+            limit: pageSize,
+            'order': [
+                ["comment_replay","asc"]
+            ]
+        });
+        return {
+            ...list,
+            pageSize,
+            page
+        };
+    },
     save: async function (req, res) {
         var result = await Model.create({ ...req.body, id: uuid.v1() });
         return {
