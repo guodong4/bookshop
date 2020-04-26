@@ -1,4 +1,3 @@
-import './index.scss';
 import { Button, Input, Table, message } from 'ant-design-vue';
 import SearchBar from "@/components/SearchBar";
 import SetUser from "./set-user";

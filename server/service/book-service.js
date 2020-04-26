@@ -32,6 +32,25 @@ Object.assign(Index.prototype, {
             page
         };
     },
+    findAllByType: async function (req, res) {
+        var book_type = req.body.book_type || "";
+        var where ={book_status:1};
+        if(book_type){
+            where.book_type = book_type
+        }
+        var pageSize = req.body.pageSize ? Number(req.body.pageSize) : 12;
+        var page = req.body.page ? Number(req.body.page) : 1;
+        var list = await Book.findAndCountAll({
+            offset: pageSize * (page - 1),
+            limit: pageSize,
+            where
+        });
+        return {
+            ...list,
+            pageSize,
+            page
+        };
+    },
     findAllByName: async function (req, res) {
         var book_name = req.body.book_name || "";
         var list = await Book.findAll({

@@ -1,4 +1,3 @@
-import './index.scss';
 import { Input, Table, message, Modal, Checkbox } from 'ant-design-vue';
 
 const Index = {
@@ -73,7 +72,6 @@ const Index = {
             })
         },
         handleCancel() {
-            this.form.resetFields();
             this.showSet = false;
             this.user={};
             this.checkRule=[];

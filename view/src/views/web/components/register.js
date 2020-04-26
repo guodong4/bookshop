@@ -33,13 +33,13 @@ const Index = {
         };
         return <div>
             <Form labelCol={{ span: 9 }} wrapperCol={{ span: 14 }}>
-                <Form.Item label="账号">
-                    {getFieldDecorator('name', {
-                        rules: [{ required: true, message: 'Please input your username!' }],
+                <Form.Item label="手机号">
+                    {getFieldDecorator('pass', {
+                        rules: [{ required: true, message: 'Please input your Password!' }],
                     })(
                         <Input
-                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            placeholder="请输入账号"
+                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                            placeholder="请输入密码"
                         />,
                     )}
                 </Form.Item>
@@ -73,6 +73,7 @@ const Index = {
                         />,
                     )}
                 </Form.Item>
+
                 <Form.Item label="身份证">
                     {getFieldDecorator('pass', {
                         rules: [{ required: true, message: 'Please input your Password!' }],

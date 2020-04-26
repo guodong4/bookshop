@@ -22,7 +22,12 @@ Object.assign(Index.prototype, {
             page
         };
     },
-
+    findAllSwoing: async function (req, res) {
+        var list = await Model.findAll({
+            where:{status:1}
+        });
+        return list;
+    },
     save: async function (req, res) {
         var result = await Model.create({ ...req.body, id: uuid.v1() });
         return {

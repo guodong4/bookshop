@@ -75,6 +75,11 @@ const Index = {
         },
         upload(id) {
             this.$refs.uploadimg.show(id);
+        },
+        changePage(page, pageSize){
+            this.option.page = page;
+            this.option.pageSize = pageSize;
+            this.getData(this.option);
         }
     },
     render() {
@@ -116,12 +121,12 @@ const Index = {
             {
                 title: '现价',
                 dataIndex: 'book_price',
-                width:70
+                width: 70
             },
             {
                 title: '原价',
                 dataIndex: 'book_old_price',
-                width:70
+                width: 70
             },
             {
                 title: '封皮图',
@@ -177,7 +182,7 @@ const Index = {
                 title: '发布时间',
                 dataIndex: 'book_publish_time',
                 customRender: (text, record, index) => {
-                    return moment(text).format('YYYY-MM-DD');
+                    return moment(text).format('YYYY-MM-DD HH:mm:ss');
                 }
             },
             {
@@ -197,7 +202,18 @@ const Index = {
             <SearchBar option={option} search={this.onSearch} reset={this.reset} customBtn={[
                 <Button type="primary" style="margin-left:8px" onClick={this.addBook}>新增</Button>
             ]} />
-            <Table dataSource={this.dataSource} bordered columns={columns} style="padding:10px;" rowKey={record => record.id} scroll={{ x: 2000 }} />
+            <Table
+                dataSource={this.dataSource}
+                bordered
+                columns={columns}
+                style="padding:10px;"
+                rowKey={record => record.id}
+                scroll={{ x: 2000 }}
+                pagination={{
+                    ...this.option,
+                    onChange: this.changePage
+                }}
+            />
             <SetBook ref="setbook" reload={this.reset} />
             <UploadImg ref="uploadimg" reload={this.reset} />
         </div>

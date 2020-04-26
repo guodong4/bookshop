@@ -193,7 +193,7 @@
         }
         .book-list {
             margin: 0 auto;
-            width: 60%;
+            width: 60% !important;
             margin-top: 50px;
             .title-item {
                 line-height: 30px;
@@ -229,6 +229,7 @@
                                 text-align: center;
                                 img{
                                     height:80%;
+                                    max-width: 100%;
                                 }
                             }
                             .right {
@@ -242,6 +243,11 @@
                         border: 1px solid #e03737;
                     }
                 }
+            }
+            .more{
+                text-align: center;
+                line-height:50px;
+                color:rgb(16, 73, 196);
             }
         }
         .book-hot{

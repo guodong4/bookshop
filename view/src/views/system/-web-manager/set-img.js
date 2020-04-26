@@ -49,6 +49,7 @@ const Index = {
                     values.book_name = this.swoing.book_name;
                     values.book_id = this.swoing.book_id;
                     values.banner_img =this.swoing.banner_img;
+                    values.book_desc = this.swoing.book_desc;
                     if(!values.book_name||!values.book_id||!values.banner_img){
                         message.error("图书信息不能有空");
                         return;
@@ -121,6 +122,7 @@ const Index = {
                     this.value = arr.book_name;
                     this.swoing.book_name = arr.book_name;
                     this.swoing.book_id = book_id;
+                    this.swoing.book_desc = arr.book_desc
                 }
             })
         }
