@@ -109,6 +109,7 @@ const Index = {
                     el: $(".book-body .sowing"),
                     data: data.map(arr => {
                         return {
+                            url:"/detail?id="+arr.book_id,
                             src: host + "/" + arr.banner_img,
                             mainTitle: arr.book_name,
                             secontTitle: arr.book_desc
@@ -248,7 +249,7 @@ const Index = {
                                                         <h3><b>{this.specialList[index * 2].book_name}</b></h3>
                                                         <div style="height:128px;overflow:hidden">{this.specialList[index * 2].book_desc}</div>
                                                         <p><b style="color:#e03737;">￥{this.specialList[index * 2].book_price}</b>&nbsp;&nbsp;&nbsp;&nbsp;<del>￥{this.specialList[index * 2].book_old_price}</del></p>
-                                                        <button class="custom-btn">加入购物车</button>
+                                                        <a href={"/detail?id="+this.specialList[index * 2].book_id} target="_blank"><button class="custom-btn">加入购物车</button></a>
                                                     </div>
                                                 </div>
                                                 {
@@ -261,7 +262,7 @@ const Index = {
                                                                 <h3><b>{this.specialList[index * 2 + 1].book_name}</b></h3>
                                                                 <div style="height:128px;overflow:hidden">{this.specialList[index * 2 + 1].book_desc}</div>
                                                                 <p><b style="color:#e03737;">￥{this.specialList[index * 2 + 1].book_price}</b>&nbsp;&nbsp;&nbsp;&nbsp;<del>￥{this.specialList[index * 2 + 1].book_old_price}</del></p>
-                                                                <button class="custom-btn">加入购物车</button>
+                                                                <a href={"/detail?id="+this.specialList[index * 2].book_id} target="_blank"><button class="custom-btn">加入购物车</button></a>
                                                             </div>
                                                         </div> : ""
                                                 }
@@ -349,7 +350,7 @@ const Index = {
                                         this.hotList.map((arr, index) => {
                                             return <div>
                                                 <font color={index == 0 || index == 1 || index == 2 ? "red" : ""}>{index + 1}</font>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <a href={"/detail?id="+arr.id}>《{arr.book_name}》</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float:right">|&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <a href={"/detail?id="+arr.id} target="_blank">《{arr.book_name}》</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float:right">|&nbsp;&nbsp;&nbsp;&nbsp;
                                                 作者：{arr.book_author}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;销量：{arr.seller_num||0}</span>
                                                 </div>
                                         })
@@ -365,7 +366,7 @@ const Index = {
                                         this.newBookList.map((arr, index) => {
                                             return <div>
                                                 <font color={index == 0 || index == 1 || index == 2 ? "red" : ""}>{index + 1}</font>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <a href={"/detail?id="+arr.id}>《{arr.book_name}》</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float:right">|&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <a href={"/detail?id="+arr.id} target="_blank">《{arr.book_name}》</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float:right">|&nbsp;&nbsp;&nbsp;&nbsp;
                                                 作者：{arr.book_author}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;上架时间：{moment(arr.book_publish_time).format('YYYY-MM-DD')}</span></div>
                                         })
                                     }

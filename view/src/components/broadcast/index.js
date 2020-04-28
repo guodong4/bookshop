@@ -58,7 +58,7 @@ $.extend(Index.prototype, {
 <div class="broadContent">
 <p class="mainTitle">${data[i].mainTitle}</p>
 <p class="secontTitle">${data[i].secontTitle}</p>
-<div class="more" data-url=""><button class="custom-btn-red">加入购物车</button></div>
+<div class="more" data-url=""><a href="${data[i].url}" target="_blank"><button class="custom-btn-red">加入购物车</button></a></div>
 </div>
 <div class="broadImg">
 <div class="img-c">

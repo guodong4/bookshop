@@ -1,4 +1,4 @@
-var Model = require('../models/comments');
+var Model = require('../models/carts');
 var Sequelize = require('sequelize');
 const uuid = require('node-uuid');
 var Op = Sequelize.Op;
@@ -16,7 +16,7 @@ Object.assign(Index.prototype, {
             offset: pageSize * (page - 1),
             limit: pageSize,
             'order': [
-                ["comment_replay","asc"]
+                ["comment_replay", "asc"]
             ]
         });
         return {
@@ -25,30 +25,25 @@ Object.assign(Index.prototype, {
             page
         };
     },
-    findCommentByBookId: async function (req, res) {
-        var pageSize = req.body.pageSize ? Number(req.body.pageSize) : 10;
-        var page = req.body.page ? Number(req.body.page) : 1;
-        var list = await Model.findAndCountAll({
-            offset: pageSize * (page - 1),
-            limit: pageSize,
-            where:{comment_book_id:req.body.comment_book_id},
-            'order': [
-                ["comment_time","asc"]
-            ]
+    addLike: async function (req, res) {
+        var cartslist = await Model.findAll({
+            where: {
+                book_id: req.body.book_id,
+                member_id:req.body.member_id
+            }
         });
-        return {
-            ...list,
-            pageSize,
-            page
-        };
-    },
-    save: async function (req, res) {
-        var result = await Model.create({ ...req.body, id: uuid.v1() });
-        return {
-            code: 1,
-            data: result.dataValues,
-            msg: "添加成功"
-        };
+        if(cartslist.length>=1){
+            return {
+                code: 1,
+                msg: "已收藏"
+            };
+        }else{
+            await Model.create({ ...req.body, id: uuid.v1() });
+            return {
+                code: 1,
+                msg: "收藏成功"
+            };
+        }
     },
     update: async function (req, res) {
         var id = req.body.id;
@@ -60,7 +55,7 @@ Object.assign(Index.prototype, {
     },
     replay: async function (req, res) {
         var id = req.body.id;
-        await Model.update({comment_replay:req.body.comment_replay }, { where: { id } });
+        await Model.update({ comment_replay: req.body.comment_replay }, { where: { id } });
         return {
             code: 1,
             msg: "回复成功",

@@ -5,9 +5,6 @@ var autoscroll = null;
 const Index = {
     data() {
         return {
-            //大图
-            bigimg: "src/img/10.jpg",
-            //1 详情  2 评价
             goodstag: 1,
             cartlist:[
                 {

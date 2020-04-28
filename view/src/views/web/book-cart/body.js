@@ -1,6 +1,6 @@
 import './index.scss';
 import BuyStep from "../components/buy-step";
-import { InputNumber, Icon, Rate,Checkbox } from "ant-design-vue";
+import { InputNumber, Icon, Rate,Checkbox, message } from "ant-design-vue";
 var autoscroll = null;
 const Index = {
     data() {
@@ -9,53 +9,54 @@ const Index = {
             bigimg: "src/img/10.jpg",
             //1 详情  2 评价
             goodstag: 1,
-            cartlist:[
-                {
-                    name:"高端奢侈礼品 日本Fillico神户矿泉水 施华洛世奇水晶天使翼皇冠",
-                    img:"src/img/10.jpg",
-                    price:100,
-                    num:1
-                },
-                {
-                    name:"高端奢侈礼品 日本Fillico神户矿泉水 施华洛世奇水晶天使翼皇冠",
-                    img:"src/img/10.jpg",
-                    price:100,
-                    num:1
-                }
-            ],
+            cartlist:[],
             totalMoney:0,
             checkedArr:[]
         };
     },
     mounted() {
-
+        this.member = localStorage.getItem("member");
+        this.member = JSON.parse(this.member);
+        if (this.member) {
+            this.getCarts(this.member.id)
+        }else{
+            message.error("请先登录！");
+        }
     },
     methods: {
+        getCarts(id) {
+            $ajax({
+                url: "/carts/findCartsByMember",
+                data: { member_id: id }
+            }).then(data => {
+                this.cartlist = data;
+            })
+        },
         changePrice(num,index){
-            if(this.cartlist[index].num==1&&num==-1){
+            if(this.cartlist[index].number==1&&num==-1){
                 return;
             }
-            this.cartlist[index].num = this.cartlist[index].num+num;
+            this.cartlist[index].number = this.cartlist[index].number+num;
             this.totalMoney=0;
             this.checkedArr.map(arr=>{
-                this.totalMoney+=this.cartlist[arr].num*this.cartlist[arr].price;
+                this.totalMoney+=this.cartlist[arr].number*this.cartlist[arr].book_price;
             })
         },
         handChange(index,e){
             e.target.value==""?e.target.value="1":e.target.value;
-            this.cartlist[index].num = Number(e.target.value);
+            this.cartlist[index].number = Number(e.target.value);
             this.totalMoney=0;
             this.checkedArr.map(arr=>{
-                this.totalMoney+=this.cartlist[arr].num*this.cartlist[arr].price;
+                this.totalMoney+=this.cartlist[arr].number*this.cartlist[arr].book_price;
             })
         },
         changeCheck(index,e){
             if(e.target.checked){
                 this.checkedArr.push(index);
-                this.totalMoney += this.cartlist[index].num*this.cartlist[index].price;
+                this.totalMoney += this.cartlist[index].number*this.cartlist[index].book_price;
             }else{
                 this.checkedArr = this.checkedArr.filter(arr=>{arr!=index});
-                this.totalMoney -= this.cartlist[index].num*this.cartlist[index].price;
+                this.totalMoney -= this.cartlist[index].number*this.cartlist[index].book_price;
             }
         }
     },
@@ -79,19 +80,19 @@ const Index = {
                             {
                                 this.cartlist.map((arr, index) => {
                                     return <tr>
-                                        <td width="15%" align="left">&nbsp;&nbsp;<Checkbox onChange={this.changeCheck.bind(this,index)} value={arr.num}/>&nbsp;&nbsp;&nbsp;&nbsp;<img src={arr.img} width="80px" height="80px" /></td>
-                                <td width="30%" align="left">{arr.name}</td>
+                                        <td width="15%" align="left">&nbsp;&nbsp;<Checkbox onChange={this.changeCheck.bind(this,index)} />&nbsp;&nbsp;&nbsp;&nbsp;<img src={host+"/"+arr.book_img} width="80px" height="80px" /></td>
+                                <td width="30%" align="left">{arr.book_name}</td>
                                         <td width="10%">
-                                            ￥{arr.price}
+                                            ￥{arr.book_price}
                                         </td>
                                         <td width="15%">
                                             <div class="count-num">
                                                 <div onClick={this.changePrice.bind(this,-1,index)}>-</div>
-                                                    <input type="text" oninput="value=value.replace(/[^\d]/g,'')" value={arr.num} onInput={this.handChange.bind(this,index)} />
+                                                    <input type="text" oninput="value=value.replace(/[^\d]/g,'')" value={arr.number} onInput={this.handChange.bind(this,index)} />
                                                 <div onClick={this.changePrice.bind(this,1,index)}>+</div>
                                             </div>
                                         </td>
-                                        <td width="10%"><font color="#e03737"><b>￥{arr.num*arr.price}</b></font></td>
+                                        <td width="10%"><font color="#e03737"><b>￥{arr.number*arr.book_price}</b></font></td>
                                         <td width="20%"><button class="custom-btn custom-btn-small" >移入收藏夹</button><button class="custom-btn-red custom-btn-small" >删除</button></td>
                                     </tr>
                                 })
@@ -99,7 +100,7 @@ const Index = {
                         </tbody>
                     </table>
                     <div class="totalCount">
-                        合计：<font color="#e03737"><strong><b>￥{this.totalMoney}</b></strong></font>
+                        合计：<font color="#e03737"><strong><b>￥{this.totalMoney}</b></strong></font>&nbsp;&nbsp;
                         <button class="custom-btn-red" onClick={()=>{window.location.href="/order"}}>结算</button>
                     </div>
                 </div>

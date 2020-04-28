@@ -211,6 +211,7 @@ const Index = {
                 scroll={{ x: 2000 }}
                 pagination={{
                     ...this.option,
+                    current:this.option.page,
                     onChange: this.changePage
                 }}
             />

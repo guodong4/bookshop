@@ -62,7 +62,6 @@ Object.assign(Index.prototype, {
         return list;
     },
     findBookImg: async function (req, res) {
-        console.log(req.body.book_id);
         var list = await BookFileImg.findAll({
             where: { book_id: req.body.book_id }
         });

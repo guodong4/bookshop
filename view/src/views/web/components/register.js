@@ -14,7 +14,7 @@ const Index = {
         register(){
             this.form.validateFields((err, values) => {
                 if (!err) {
-                    values.birthday = values.birthday.format('YYYY-MM-DD');
+                    values.birthday?values.birthday = values.birthday.format('YYYY-MM-DD'):"";
                     if(values.aginpass!=values.password){
                         message.error("两次密码输入不一致");
                         return;
@@ -26,7 +26,7 @@ const Index = {
                         if (data.code == 1) {
                             localStorage.setItem("member", JSON.stringify(data.data));
                             message.success(data.msg);
-                            wondow.location.reload();
+                            window.location.reload();
                         } else {
                             message.error(data.msg);
                         }

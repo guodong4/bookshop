@@ -1,4 +1,5 @@
-var Model = require('../models/comments');
+var Model = require('../models/carts');
+var Book = require('../models/book');
 var Sequelize = require('sequelize');
 const uuid = require('node-uuid');
 var Op = Sequelize.Op;
@@ -16,7 +17,7 @@ Object.assign(Index.prototype, {
             offset: pageSize * (page - 1),
             limit: pageSize,
             'order': [
-                ["comment_replay","asc"]
+                ["comment_replay", "asc"]
             ]
         });
         return {
@@ -25,29 +26,42 @@ Object.assign(Index.prototype, {
             page
         };
     },
-    findCommentByBookId: async function (req, res) {
-        var pageSize = req.body.pageSize ? Number(req.body.pageSize) : 10;
-        var page = req.body.page ? Number(req.body.page) : 1;
-        var list = await Model.findAndCountAll({
-            offset: pageSize * (page - 1),
-            limit: pageSize,
-            where:{comment_book_id:req.body.comment_book_id},
-            'order': [
-                ["comment_time","asc"]
-            ]
+    findCartsByMember: async function (req, res) {
+        var member_id = req.body.member_id;
+        var result = await Model.findAll({ where: { member_id } });
+        var ids = result.map(arr => { 
+            return arr.book_id 
         });
-        return {
-            ...list,
-            pageSize,
-            page
-        };
+        var booklist = await Book.findAll({
+            where: {
+                id: { [Op.in]: ids },
+            }
+        });
+        return booklist.map(arr=>{
+            result.map(item=>{
+                if(arr.id==item.book_id){
+                    arr.dataValues.number = item.dataValues.number;
+                    arr.dataValues.carts_id = item.dataValues.id;
+                }
+            });
+            return arr.dataValues;
+        });
     },
-    save: async function (req, res) {
-        var result = await Model.create({ ...req.body, id: uuid.v1() });
+    addCarts: async function (req, res) {
+        var cartslist = await Model.findAll({
+            where: {
+                book_id: req.body.book_id,
+                member_id: req.body.member_id
+            }
+        });
+        if (cartslist.length >= 1) {
+            await Model.update({ number: Number(cartslist[0].number) + Number(req.body.number) }, { where: { id: cartslist[0].id } });
+        } else {
+            await Model.create({ ...req.body, id: uuid.v1() });
+        }
         return {
             code: 1,
-            data: result.dataValues,
-            msg: "添加成功"
+            msg: "加入购物车成功"
         };
     },
     update: async function (req, res) {
@@ -60,7 +74,7 @@ Object.assign(Index.prototype, {
     },
     replay: async function (req, res) {
         var id = req.body.id;
-        await Model.update({comment_replay:req.body.comment_replay }, { where: { id } });
+        await Model.update({ comment_replay: req.body.comment_replay }, { where: { id } });
         return {
             code: 1,
             msg: "回复成功",

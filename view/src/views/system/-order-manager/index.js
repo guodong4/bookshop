@@ -128,6 +128,7 @@ const Index = {
             <SearchBar option={option} search={this.onSearch} reset={this.reset} />
             <Table dataSource={this.dataSource} bordered columns={columns} style="padding:10px;" rowKey={record => record.id} pagination={{
                     ...this.option,
+                    current:this.option.page,
                     onChange: this.changePage
                 }}/>
             <Detail ref="detail" reload={this.reset} />

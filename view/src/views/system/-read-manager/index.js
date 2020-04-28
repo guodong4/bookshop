@@ -175,6 +175,7 @@ const Index = {
             ]} />
             <Table dataSource={this.dataSource} bordered columns={columns} style="padding:10px;" rowKey={record => record.id} scroll={{ x: 1500 }} pagination={{
                     ...this.option,
+                    current:this.option.page,
                     onChange: this.changePage
                 }}/>
             <SetBook ref="setbook" reload={this.reset} />
