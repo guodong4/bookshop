@@ -1,7 +1,7 @@
 /* jshint indent: 1 */
 var Sequelize = require('sequelize')  //引入sequelize模块
 var db = require('../db')  //引入数据库
-module.exports = db.define('t_address',
+module.exports = db.define('t_addresses',
     {
         id: {
 			type: Sequelize.STRING(50),
@@ -21,6 +21,16 @@ module.exports = db.define('t_address',
 		//收件人
 		receiver: {
 			type: Sequelize.STRING(255),
+			allowNull: true
+		},
+		//收件人
+		member_id: {
+			type: Sequelize.STRING(50),
+			allowNull: true
+		},
+		//收件人
+		is_default: {
+			type: Sequelize.STRING(2),
 			allowNull: true
 		}
     }, {

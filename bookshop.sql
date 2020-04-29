@@ -10,16 +10,16 @@ Target Server Type    : MYSQL
 Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2020-04-29 18:32:21
+Date: 2020-04-29 23:49:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for t_address
+-- Table structure for t_addresses
 -- ----------------------------
-DROP TABLE IF EXISTS `t_address`;
-CREATE TABLE `t_address` (
+DROP TABLE IF EXISTS `t_addresses`;
+CREATE TABLE `t_addresses` (
   `id` varchar(50) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
   `phone_number` varchar(255) DEFAULT NULL,
@@ -30,8 +30,10 @@ CREATE TABLE `t_address` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of t_address
+-- Records of t_addresses
 -- ----------------------------
+INSERT INTO `t_addresses` VALUES ('2169e5c0-8a26-11ea-8b53-fdbe16dbe69f', '北京', '123123', '张三', '84bcdb00-87d3-11ea-a00d-d72091ed12fb', '1');
+INSERT INTO `t_addresses` VALUES ('b303e2d0-8a29-11ea-84d0-638bad660eea', '北京', '13222222222', '掌机', '84bcdb00-87d3-11ea-a00d-d72091ed12fb', '0');
 
 -- ----------------------------
 -- Table structure for t_ads
@@ -157,6 +159,8 @@ CREATE TABLE `t_carts` (
 -- Records of t_carts
 -- ----------------------------
 INSERT INTO `t_carts` VALUES ('1b2420e0-8882-11ea-835f-b73e5caaaadc', '02e6cff0-86f2-11ea-b160-11d584c041e7', '19', '8ff8afe0-8881-11ea-835f-b73e5caaaadc');
+INSERT INTO `t_carts` VALUES ('77707a90-8a23-11ea-b8f5-89d0c4120d5e', 'e2097fa0-85f0-11ea-9bc8-4d631e080324', '1', '84bcdb00-87d3-11ea-a00d-d72091ed12fb');
+INSERT INTO `t_carts` VALUES ('7b0f2520-8a23-11ea-b8f5-89d0c4120d5e', '02e6cff0-86f2-11ea-b160-11d584c041e7', '1', '84bcdb00-87d3-11ea-a00d-d72091ed12fb');
 INSERT INTO `t_carts` VALUES ('eba15ce0-89dd-11ea-8f01-c9e7a0d210b4', 'e2097fa0-85f0-11ea-9bc8-4d631e080324', '2', '8ff8afe0-8881-11ea-835f-b73e5caaaadc');
 
 -- ----------------------------
@@ -275,7 +279,7 @@ CREATE TABLE `t_orders` (
   `member_name` varchar(255) DEFAULT NULL,
   `order_time` datetime DEFAULT NULL,
   `order_status` varchar(2) DEFAULT NULL,
-  `order_address` varchar(50) DEFAULT NULL COMMENT '地址信息',
+  `order_address` varchar(255) DEFAULT NULL COMMENT '地址信息',
   `order_express` varchar(255) DEFAULT NULL COMMENT '快递信息',
   `order_number` varchar(100) DEFAULT NULL,
   `express_number` varchar(100) DEFAULT NULL,
@@ -288,26 +292,31 @@ CREATE TABLE `t_orders` (
 -- ----------------------------
 -- Records of t_orders
 -- ----------------------------
+INSERT INTO `t_orders` VALUES ('81f546a1-8a30-11ea-ad35-e7dec46cf2e1', '63.00', '84bcdb00-87d3-11ea-a00d-d72091ed12fb', '小可', '2020-04-29 15:45:53', '0', 'undefined,undefined,undefined收', '', '81f546a0-8a30-11ea-ad35-e7dec46cf2e1', '', '', '', '');
+INSERT INTO `t_orders` VALUES ('a8b52ad1-8a30-11ea-8fbe-fdc64f606803', '63.00', '84bcdb00-87d3-11ea-a00d-d72091ed12fb', '小可', '2020-04-29 15:46:58', '0', 'undefined,undefined,undefined收', '', 'a8b52ad0-8a30-11ea-8fbe-fdc64f606803', '', '', '', '');
+INSERT INTO `t_orders` VALUES ('cd52a431-8a30-11ea-89f9-cf3db8fef0a6', '63.00', '84bcdb00-87d3-11ea-a00d-d72091ed12fb', '小可', '2020-04-29 15:47:59', '0', 'undefined,undefined,undefined收', '', 'cd52a430-8a30-11ea-89f9-cf3db8fef0a6', '', '', '', '');
 
 -- ----------------------------
--- Table structure for t_order_book
+-- Table structure for t_order_books
 -- ----------------------------
-DROP TABLE IF EXISTS `t_order_book`;
-CREATE TABLE `t_order_book` (
+DROP TABLE IF EXISTS `t_order_books`;
+CREATE TABLE `t_order_books` (
   `id` varchar(50) NOT NULL,
   `book_id` varchar(50) DEFAULT NULL,
   `buy_num` int(11) DEFAULT NULL,
   `book_name` varchar(255) DEFAULT NULL,
   `book_img` varchar(255) DEFAULT NULL,
   `book_price` decimal(10,2) DEFAULT NULL,
-  `order_id` varchar(50) DEFAULT NULL,
+  `order_number` varchar(50) DEFAULT NULL,
   `price_total` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of t_order_book
+-- Records of t_order_books
 -- ----------------------------
+INSERT INTO `t_order_books` VALUES ('cd55ff90-8a30-11ea-89f9-cf3db8fef0a6', '02e6cff0-86f2-11ea-b160-11d584c041e7', '1', 'js高级', 'ed08aaf0-86f1-11ea-b160-11d584c041e7.png', '32.00', 'cd52a430-8a30-11ea-89f9-cf3db8fef0a6', '32.00');
+INSERT INTO `t_order_books` VALUES ('cd55ff91-8a30-11ea-89f9-cf3db8fef0a6', 'e2097fa0-85f0-11ea-9bc8-4d631e080324', '1', 'java高级程序设计', '7a659ed0-862a-11ea-aee4-6d45bffdf750.jpg', '21.00', 'cd52a430-8a30-11ea-89f9-cf3db8fef0a6', '21.00');
 
 -- ----------------------------
 -- Table structure for t_order_record

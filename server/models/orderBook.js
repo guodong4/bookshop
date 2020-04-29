@@ -1,7 +1,7 @@
 /* jshint indent: 1 */
 var Sequelize = require('sequelize')  //引入sequelize模块
 var db = require('../db')  //引入数据库
-module.exports = db.define('t_carts',
+module.exports = db.define('t_order_books',
 	{
 		id: {
 			type: Sequelize.STRING(50),
@@ -12,7 +12,7 @@ module.exports = db.define('t_carts',
 			type: Sequelize.STRING(50),
 			allowNull: true
 		},
-		order_id: {
+		order_number: {
 			type: Sequelize.STRING(50),
 			allowNull: true
 		},

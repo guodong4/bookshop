@@ -16,34 +16,36 @@ const Index = {
     mounted() {
         this.member = localStorage.getItem("member");
         this.member = JSON.parse(this.member);
-        if (this.member) {
-            this.getCarts(this.member.id)
-        } else {
-            message.error("请先登录！");
-        }
-    },
+    }, 
     methods: {
         show(id) {
-            console.log(id);
             this.addressId=id||"";
             this.showAdd = true;
+            if(this.addressId){
+                this.getAddress()
+            }
         },
         handleOk() {
             this.form.validateFields((err, values) => {
                 if (!err) {
                     if (this.addressId == "") {
+                        values.is_default = values.is_default?1:0;
                         $ajax({
                             url: "/order/saveAddress",
-                            data: values
+                            data: {
+                                ...values,
+                                member_id:this.member.id,
+                            }
                         }).then(data => {
                             this.handleCancel()
                             message.success(data.msg);
                             this.reload();
                         })
                     } else {
+                        values.is_default = values.is_default?1:0;
                         $ajax({
                             url: "/order/updateAddress",
-                            data: { ...values, id: this.addressId }
+                            data: { ...values, id: this.order.id,member_id:this.member.id}
                         }).then(data => {
                             this.handleCancel()
                             message.success(data.msg);
@@ -55,6 +57,16 @@ const Index = {
                     console.log(err);
                 }
             });
+        },
+        getAddress(){
+            $ajax({
+                url: "/order/findOneAddress",
+                data: {
+                    id:this.addressId
+                }
+            }).then(data=>{
+                this.order = data;
+            })
         },
         handleCancel() {
             this.form.resetFields();
@@ -103,15 +115,23 @@ const Index = {
                 <Form.Item label="收件人">
                     {getFieldDecorator("receiver", {
                         initialValue: this.order.receiver || "",
+                        rules: [
+                            {
+                                required: true,
+                                message: '收件人必填',
+                            },
+                        ],
                     })(
                         <Input />
                     )}
                 </Form.Item>
                 <Form.Item label="设置为默认">
                     {getFieldDecorator("is_default", {
-                        initialValue: this.order.is_default || "",
+                        initialValue: this.order.is_default,
                     })(
-                        <Checkbox/>
+                        <Checkbox checked={this.order.is_default==1} onChange={(e)=>{
+                            this.order.is_default= e.target.checked?1:0;
+                        }}/>
                     )}
                 </Form.Item>
             </Form>

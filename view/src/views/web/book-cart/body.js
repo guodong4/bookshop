@@ -1,6 +1,6 @@
 import './index.scss';
 import BuyStep from "../components/buy-step";
-import { InputNumber, Icon, Rate, Checkbox, message } from "ant-design-vue";
+import { InputNumber, Icon, Rate, Checkbox, message,Empty  } from "ant-design-vue";
 var autoscroll = null;
 const Index = {
     data() {
@@ -113,7 +113,7 @@ const Index = {
                         </thead>
                         <tbody>
                             {
-                                this.cartlist.map((arr, index) => {
+                                this.cartlist.length==0?<tr><td colspan="7"><Empty /></td></tr>:this.cartlist.map((arr, index) => {
                                     return <tr>
                                         <td width="15%" align="left">&nbsp;&nbsp;
                                         <Checkbox onChange={this.changeCheck.bind(this, index)} />&nbsp;&nbsp;&nbsp;&nbsp;

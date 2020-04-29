@@ -9,17 +9,13 @@ const Index = {
             booklist: [],
             totalMoney: 10,
             addresslist: [],
-            member: {}
+            member: {},
+            address: {}
         };
     },
     mounted() {
         this.member = localStorage.getItem("member");
         this.member = JSON.parse(this.member);
-        if (this.member) {
-            this.getCarts(this.member.id)
-        } else {
-            message.error("请先登录！");
-        }
         this.booklist = this.$route.params.goodslist;
         if (!this.booklist) {
             let data = sessionStorage.getItem('orderlist');
@@ -47,8 +43,34 @@ const Index = {
                 }
             }).then(data => {
                 this.addresslist = data;
+                this.address = data.filter(arr => arr.is_default == 1);
             })
         },
+        changeAddress(arr) {
+            this.address = arr;
+        },
+        submitOrder() {
+            $ajax({
+                url: "/order/save",
+                data: {
+                    order_price:this.totalMoney,
+                    member_id: this.member.id,
+                    member_name:this.member.nickname,
+                    order_address:this.address.address+","+this.address.phone_number+","+this.address.receiver+"收",
+                    order_status:"0",
+                    order_book:JSON.stringify(this.booklist)
+                }
+            }).then(data=>{
+                if(data.code==1){
+                    this.$router.push({
+                        path:"/confirm",
+                        query:{
+                            order_number:data.data.order_number
+                        }
+                    })
+                }
+            })
+        }
     },
     render() {
         return <div class="book-body">
@@ -56,17 +78,17 @@ const Index = {
                 <BuyStep step={2} />
                 <div class="goods-order">
                     <div class="personal-information">
-                        <div class="title"><Icon type="environment" />&nbsp;&nbsp;收货地址<a style="float:right;letter-spacing:0px;margin-right:10px;font-weight:500;color:#1890ff" onClick={this.addNewAddress}><font size="-2">添加新地址</font></a></div>
-                        <Radio.Group style="width:100%">
+                        <div class="title"><Icon type="environment" />&nbsp;&nbsp;收货地址<a style="float:right;letter-spacing:0px;margin-right:10px;font-weight:500;color:#1890ff" onClick={this.addNewAddress.bind(this, false)}><font size="-2">添加新地址</font></a></div>
+                        <Radio.Group style="width:100%" defaultValue="1">
                             {
                                 this.addresslist.map(arr => {
                                     return <div class="infor">
                                         <ul>
-                                            <li><Radio value={arr.id} defaultChecked={arr.is_default==1}/></li>
+                                            <li><Radio value={arr.is_default} onClick={this.changeAddress.bind(this, arr)} />{arr.is_default == 1}</li>
                                             <li>地址信息：{arr.address}</li>
                                             <li>收货人姓名：{arr.receiver}</li>
                                             <li>手机号码：{arr.phone_number}</li>
-                                            <li style="float:right;letter-spacing:0px;margin-right:10px;font-weight:500;color:#1890ff"><a><font size="-3" color="#1890ff"  onClick={this.addNewAddress.bind(this,arr.id)}>修改本地址</font></a></li>
+                                            <li style="float:right;letter-spacing:0px;margin-right:10px;font-weight:500;color:#1890ff"><a><font size="-3" color="#1890ff" onClick={this.addNewAddress.bind(this, arr.id)}>修改本地址</font></a></li>
                                         </ul>
                                     </div>
                                 })
@@ -106,7 +128,7 @@ const Index = {
                     <div class="totalCount">
                         邮费：<font color="#e03737"><strong><b>￥10</b></strong></font>&nbsp;&nbsp;&nbsp;&nbsp;
                         合计：<font color="#e03737"><strong><b>￥{this.totalMoney}</b></strong></font>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <button class="custom-btn-red" onClick={() => { window.location.href = "/confirm" }}>提交订单</button>
+                        <button class="custom-btn-red" onClick={this.submitOrder}>提交订单</button>
                     </div>
                 </div>
             </div >
