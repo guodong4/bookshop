@@ -13,7 +13,7 @@ const Index = {
         this.member = localStorage.getItem("member");
         this.member = JSON.parse(this.member);
         if (this.member) {
-            this.getCarts(this.member.id)
+            //this.getCarts(this.member.id)
         }
     },
     methods: {

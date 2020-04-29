@@ -32,11 +32,14 @@ Object.assign(Index.prototype, {
         var ids = result.map(arr => { 
             return arr.book_id 
         });
+        console.log(ids);
         var booklist = await Book.findAll({
             where: {
                 id: { [Op.in]: ids },
             }
         });
+        console.log("================");
+        console.log(booklist);
         return booklist.map(arr=>{
             result.map(item=>{
                 if(arr.id==item.book_id){

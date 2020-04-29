@@ -31,17 +31,17 @@ const Index = {
         //顶部轮播图
         this.getSwoing();
         //获取分类
-        this.getClassify();
+       this.getClassify();
         //获取图书列表
         this.getBookList(this.option);
         //今日特价
         this.getSpecial();
         //广告
-        this.getAds();
+        //this.getAds();
         //热销榜
-        this.getHot();
+       // this.getHot();
         //新书
-        this.getNewBookList()
+       // this.getNewBookList()
     },
     methods: {
         getNewBookList() {
