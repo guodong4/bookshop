@@ -17,7 +17,7 @@ const Index = {
     },
     render() {
         return <div class="top-search">
-            <div class="logo">黄金书屋</div>
+            <div class="logo" onClick={() => { window.location.href = "/" }}>黄金书屋</div>
             <div class="steps">
                 <ul>
                     <li class={this.step>3?"done normal":"normal"}>付款成功</li>

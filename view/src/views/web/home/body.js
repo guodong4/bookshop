@@ -349,9 +349,9 @@ const Index = {
                                     {
                                         this.hotList.map((arr, index) => {
                                             return <div>
-                                                <font color={index == 0 || index == 1 || index == 2 ? "red" : ""}>{index + 1}</font>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <a href={"/detail?id="+arr.id} target="_blank">《{arr.book_name}》</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float:right">|&nbsp;&nbsp;&nbsp;&nbsp;
-                                                作者：{arr.book_author}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;销量：{arr.seller_num||0}</span>
+                                                <font color={index == 0 || index == 1 || index == 2 ? "red" : ""}>{index + 1}</font>&nbsp;&nbsp;
+                                                <a href={"/detail?id="+arr.id} target="_blank">《{arr.book_name}》</a>&nbsp;&nbsp;<span style="float:right">|&nbsp;&nbsp;
+                                                作者：{arr.book_author}&nbsp;&nbsp;|&nbsp;&nbsp;销量：{arr.seller_num||0}</span>
                                                 </div>
                                         })
                                     }
@@ -365,9 +365,9 @@ const Index = {
                                     {
                                         this.newBookList.map((arr, index) => {
                                             return <div>
-                                                <font color={index == 0 || index == 1 || index == 2 ? "red" : ""}>{index + 1}</font>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <a href={"/detail?id="+arr.id} target="_blank">《{arr.book_name}》</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float:right">|&nbsp;&nbsp;&nbsp;&nbsp;
-                                                作者：{arr.book_author}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;上架时间：{moment(arr.book_publish_time).format('YYYY-MM-DD')}</span></div>
+                                                <font color={index == 0 || index == 1 || index == 2 ? "red" : ""}>{index + 1}</font>&nbsp;&nbsp;
+                                                <a href={"/detail?id="+arr.id} target="_blank">《{arr.book_name}》</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float:right">|&nbsp;&nbsp;
+                                                作者：{arr.book_author}&nbsp;&nbsp;|&nbsp;&nbsp;上架时间：{moment(arr.book_publish_time).format('YYYY-MM-DD')}</span></div>
                                         })
                                     }
                                 </div>

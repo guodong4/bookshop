@@ -37,7 +37,7 @@ Object.assign(Index.prototype, {
                 id: { [Op.in]: ids },
             }
         });
-        return booklist.map(arr=>{
+        return booklist.map(arr=>{ 
             result.map(item=>{
                 if(arr.id==item.book_id){
                     arr.dataValues.number = item.dataValues.number;
