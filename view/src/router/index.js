@@ -10,84 +10,84 @@ export default new Router({
         },
         { 
             path: '/index',
-            name: '',
+            name: 'index',
             components: {
                 default: () => import('@/views/web/home'),
             }
         },
         { 
             path: '/detail',
-            name: '',
+            name: 'detail',
             components: {
                 default: () => import('@/views/web/book-detail'),
             }
         },
         { 
             path: '/cart',
-            name: '',
+            name: 'cart',
             components: {
                 default: () => import('@/views/web/book-cart'),
             }
         },
         { 
             path: '/order',
-            name: '',
+            name: 'order',
             components: {
                 default: () => import('@/views/web/book-order'),
             }
         },
         { 
             path: '/collection',
-            name: '',
+            name: 'collection',
             components: {
                 default: () => import('@/views/web/book-like'),
             }
         },
         { 
             path: '/confirm',
-            name: '',
+            name: 'confirm',
             components: {
                 default: () => import('@/views/web/order-confirm'),
             }
         },
         { 
             path: '/success',
-            name: '',
+            name: 'success',
             components: {
                 default: () => import('@/views/web/order-success'),
             }
         },
         { 
             path: '/read',
-            name: '',
+            name: 'read',
             components: {
                 default: () => import('@/views/web/book-read'),
             }
         },
         { 
             path: '/read/detail',
-            name: '',
+            name: 'read/detail',
             components: {
                 default: () => import('@/views/web/book-read-detail'),
             }
         },
         { 
             path: '/myself',
-            name: '',
+            name: 'myself',
             components: {
                 default: () => import('@/views/web/book-self'),
             }
         },
         { 
             path: '/system',
-            name: '',
+            name: 'system',
             components: {
                 default: () => import('@/views/system/layout'),
             }
         },
         { 
             path: '/system/login',
-            name: '',
+            name: 'system/login',
             components: {
                 default: () => import('@/views/system/login'),
             }

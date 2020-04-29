@@ -1,6 +1,7 @@
 var Model = require('../models/order');
 var Record = require('../models/record');
 var OrderBook = require('../models/orderBook');
+var Address = require('../models/address');
 var Sequelize = require('sequelize');
 const uuid = require('node-uuid');
 var Op = Sequelize.Op;
@@ -53,6 +54,19 @@ Object.assign(Index.prototype, {
             data: result.dataValues,
             msg: "添加成功"
         };
+    },
+    saveAddress: async function (req, res) {
+        var result = await Model.create({ ...req.body, id: uuid.v1() });
+        return {
+            code: 1,
+            data: result.dataValues,
+            msg: "添加成功"
+        };
+    },
+    getAddress: async function (req, res) {
+        var id = req.body.member_id;
+        var result = await Record.findAll({ where: { member_id:id } });
+        return result;
     },
     update: async function (req, res) {
         var id = req.body.id;
