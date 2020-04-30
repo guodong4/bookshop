@@ -25,6 +25,11 @@ Object.assign(Index.prototype, {
             page
         };
     },
+    findAllByMemberId: async function (req, res) {
+        var member_id = req.body.member_id;
+        var result = await Model.findAll({ where: { comment_member_id:member_id } });
+        return result;
+    },
     findCommentByBookId: async function (req, res) {
         var pageSize = req.body.pageSize ? Number(req.body.pageSize) : 10;
         var page = req.body.page ? Number(req.body.page) : 1;

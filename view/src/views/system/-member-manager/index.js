@@ -1,5 +1,6 @@
 import { Button, Input, Table, message } from 'ant-design-vue';
 import SearchBar from "@/components/SearchBar";
+import moment from "moment";
 const Index = {
     data() {
         return {
@@ -76,7 +77,7 @@ const Index = {
                 title: '生日',
                 dataIndex: 'birthday',
                 customRender: (text, record, index) => {
-                    return moment(text).format('YYYY-MM-DD HH:mm:ss');
+                    return text?moment(text).format('YYYY-MM-DD'):"";
                 }
             },
             {

@@ -17,7 +17,7 @@ module.exports = db.define('t_order_records',
 			allowNull: true
 		},
 		order_id:{
-			type: Sequelize.STRING(2),
+			type: Sequelize.STRING(50),
 			allowNull: true
 		},
 		record_user:{

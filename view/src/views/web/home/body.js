@@ -37,11 +37,11 @@ const Index = {
         //今日特价
         this.getSpecial();
         //广告
-        //this.getAds();
+        this.getAds();
         //热销榜
-       // this.getHot();
+       this.getHot();
         //新书
-       // this.getNewBookList()
+       this.getNewBookList();
     },
     methods: {
         getNewBookList() {

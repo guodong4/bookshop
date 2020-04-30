@@ -1,8 +1,15 @@
 .desc{
     width:100%;
     li{
-        width:30%;
+        width:50%;
         display:inline-block;
         line-height:30px;
+        letter-spacing: 1px;
+        color:#333;
+        font-weight: 600;
+        span{
+            color:rgb(141, 134, 134);
+            margin-right:10px;
+        }
     }
 }

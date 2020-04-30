@@ -1,4 +1,5 @@
-var Model = require('../models/carts');
+var Model = require('../models/likes');
+var Book = require('../models/book');
 var Sequelize = require('sequelize');
 const uuid = require('node-uuid');
 var Op = Sequelize.Op;
@@ -24,6 +25,26 @@ Object.assign(Index.prototype, {
             pageSize,
             page
         };
+    },
+    findLikeByMember: async function (req, res) {
+        var member_id = req.body.member_id;
+        var result = await Model.findAll({ where: { member_id } });
+        var ids = result.map(arr => { 
+            return arr.book_id 
+        });
+        var booklist = await Book.findAll({
+            where: {
+                id: { [Op.in]: ids },
+            }
+        });
+        return booklist.map(arr=>{ 
+            result.map(item=>{
+                if(arr.id==item.book_id){
+                    arr.dataValues.like_id = item.dataValues.id;
+                }
+            });
+            return arr.dataValues;
+        });
     },
     addLike: async function (req, res) {
         var cartslist = await Model.findAll({

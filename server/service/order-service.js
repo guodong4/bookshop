@@ -22,7 +22,7 @@ Object.assign(Index.prototype, {
             limit: pageSize,
             where: {
                 order_number: { [Op.like]: '%' + order_number + '%' },
-                order_status
+                order_status:{[Op.like]: '%' + order_status + '%'}
             }
         });
         return {
@@ -40,8 +40,8 @@ Object.assign(Index.prototype, {
         };
     },
     findBookByOrderId: async function (req, res) {
-        var id = req.body.order_id;
-        var result = await OrderBook.findAll({ where: { order_id:id } });
+        var order_number = req.body.order_number;
+        var result = await OrderBook.findAll({ where: { order_number } });
         return {
             code: 1,
             data: result,
@@ -50,8 +50,9 @@ Object.assign(Index.prototype, {
     save: async function (req, res) {
         var order_book = req.body.order_book;
         var order_number = uuid.v1();
+        var order_id = uuid.v1();
         var result = await Model.create({ 
-            id: uuid.v1(),
+            id: order_id,
             order_price:req.body.order_price,
             member_id:req.body.member_id,
             member_name:req.body.member_name,
@@ -77,6 +78,13 @@ Object.assign(Index.prototype, {
                 order_number:order_number,
                 price_total:arr.number*arr.book_price
             });
+        });
+        Record.create({ 
+            id: uuid.v1(),
+            record:"创建订单",
+            record_time:new Date(),
+            order_id:order_id,
+            record_user:req.body.member_id
         });
         return {
             code: 1,
@@ -118,7 +126,31 @@ Object.assign(Index.prototype, {
         var result = await Address.findAll({ where: { id:id } });
         return result[0]
     },
-    
+    payOrder: async function (req, res) {
+        var order_number = req.body.order_number;
+        await Model.update({ order_status:"2" }, { where: { order_number } });
+        return {
+            code: 1,
+            msg: "修改成功",
+        };
+    },
+    updateStatus: async function (req, res) {
+        var id = req.body.id;
+        if(req.body.order_status==3){
+            Record.create({ 
+                id: uuid.v1(),
+                record:"已发货",
+                record_time:new Date(),
+                order_id:id,
+                record_user:"管理员"
+            });
+        }
+        await Model.update({ ...req.body }, { where: { id } });
+        return {
+            code: 1,
+            msg: "操作成功",
+        };
+    },
     update: async function (req, res) {
         var id = req.body.id;
         await Model.update({ ...req.body }, { where: { id } });

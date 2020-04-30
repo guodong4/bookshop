@@ -19,8 +19,8 @@ const Index = {
                         data: values
                     }).then(data => {
                         if (data.code == 1) {
-                            localStorage.setItem("user", JSON.stringify(data.data));
-                            this.$router.push("/system");
+                            localStorage.setItem("member", JSON.stringify(data.data));
+                            window.location.reload();
                         } else {
                             this.msg = data.msg;
                         }

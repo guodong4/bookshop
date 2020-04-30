@@ -1,5 +1,6 @@
-import { Input, Descriptions, Card, Table, Modal, Button } from 'ant-design-vue';
+import { Input, Popover, Card, Table, Modal, Button } from 'ant-design-vue';
 import moment from 'moment';
+import "./index.scss"
 const Index = {
     props: ["reload"],
     data() {
@@ -23,7 +24,7 @@ const Index = {
                 data: { id: id }
             }).then(data => {
                 this.order = data.data
-                this.getBookList(data.data.book_id)
+                this.getBookList(data.data.order_number)
             })
         },
         getRecord(id) {
@@ -31,15 +32,15 @@ const Index = {
                 url: "/order/findRecordByOrderId",
                 data: { order_id: id }
             }).then(data => {
-                this.record = data
+                this.record = data.data
             })
         },
-        getBookList(id) {
+        getBookList(order_number) {
             $ajax({
                 url: "/order/findBookByOrderId",
-                data: { order_id: id }
+                data: { order_number: order_number }
             }).then(data => {
-                this.record = data
+                this.booklist = data.data
             })
         },
         handleCancel() {
@@ -97,10 +98,13 @@ const Index = {
             {
                 title: '操作时间',
                 dataIndex: 'record_time',
+                customRender: (text, record, index) => {
+                    return moment(text).format('YYYY-MM-DD HH:mm:ss');
+                }
             },
             {
                 title: '操作详情',
-                dataIndex: 'order'
+                dataIndex: 'record'
             }
         ]
         return <Modal
@@ -114,28 +118,28 @@ const Index = {
         >
             <Card type="inner" title="基本信息">
                 <ul class="desc">
-                    <li>订单编号{this.order.order_number}</li>
-                    <li >订单金额:{this.order.order_price}</li>
-                    <li >订单状态:{status[this.order.order_status]}</li>
-                    <li >收货地址:{this.order.order_address}</li>
-                    <li>快递公司:{this.order.order_express}</li>
-                    <li >快递单号:{this.order.express_number}</li>
+                    <li><span>订单编号:</span>{this.order.order_number}</li>
+                    <li ><span>订单金额:</span>{this.order.order_price}</li>
+                    <li ><span>订单状态:</span>{status[this.order.order_status]}</li>
+                    <li ><span>收货地址:</span>{this.order.order_address}</li>
+                    <li><span>快递公司:</span>{this.order.order_express}</li>
+                    <li ><span>快递单号:</span>{this.order.express_number}</li>
                     {
                         this.order.order_status == 5 || this.order.order_status == 6 || this.order.order_status == 7 || this.order.order_status == 8 ?
-                            <li >退单原因:{this.order.order_cancel_reason}</li> : ""
+                            <li ><span>退单原因:</span>{this.order.order_cancel_reason}</li> : ""
                     }
                     {
-                        this.order.order_status == 8 ? <li>退货快递公司:{this.order.return_express}</li> : ""
+                        this.order.order_status == 8 ? <li><span>退货快递公司:</span>{this.order.return_express}</li> : ""
                     }
                     {
-                        this.order.order_status == 8 ? <li>退货快递单号:{this.order.return_express_number}</li> : ""
+                        this.order.order_status == 8 ? <li><span>退货快递单号:</span>{this.order.return_express_number}</li> : ""
                     }
                 </ul>
             </Card>
-            <Card type="inner" title="商品信息">
+            <Card type="inner" title="商品信息" style="margin-top:10px;">
                 <Table dataSource={this.booklist} bordered columns={bookcolumns} style="padding:10px;" rowKey={record => record.id} />
             </Card>
-            <Card type="inner" title="操作记录">
+            <Card type="inner" title="操作记录" style="margin-top:10px;">
                 <Table dataSource={this.record} bordered columns={recordcolumns} style="padding:10px;" rowKey={record => record.id} />
             </Card>
         </Modal>

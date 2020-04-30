@@ -8,7 +8,7 @@ const Index = {
     data() {
         return {
             login: false,
-            member: null
+            member: {}
         };
     },
     mounted() {
@@ -21,6 +21,10 @@ const Index = {
         },
         onClose() {
             this.login = false;
+        },
+        logout(){
+            localStorage.removeItem("member");
+            window.location.href="/";
         }
     },
     render() {
@@ -32,7 +36,11 @@ const Index = {
                 {
                     this.member ?
                         <span class="right">
-                            admin&nbsp;&nbsp;&nbsp;&nbsp;<Icon type="user" />&nbsp;&nbsp;<a href="/myself">个人中心</a>&nbsp;/&nbsp;<a>退出</a>
+                            {this.member.nickname}&nbsp;&nbsp;&nbsp;&nbsp;<Icon type="user" />&nbsp;&nbsp;
+                            <a href="/myself">个人中心</a>&nbsp;/&nbsp;
+                            <a href="/collection">我的收藏</a>&nbsp;/&nbsp;
+                            <a href="/carts">我的购物车</a>&nbsp;/&nbsp;
+                            <a onClick={this.logout}>退出</a>
                         </span> :
                         <span class="right">
                             <Icon type="user" />&nbsp;&nbsp;<a href="javascript:;" onClick={this.toLogin}>登录</a>

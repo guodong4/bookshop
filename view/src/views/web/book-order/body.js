@@ -43,13 +43,14 @@ const Index = {
                 }
             }).then(data => {
                 this.addresslist = data;
-                this.address = data.filter(arr => arr.is_default == 1);
+                this.address = data.filter(arr => arr.is_default == 1)[0];
             })
         },
         changeAddress(arr) {
             this.address = arr;
         },
         submitOrder() {
+            console.log(this.address);
             $ajax({
                 url: "/order/save",
                 data: {
