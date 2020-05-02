@@ -216,8 +216,8 @@ const Index = {
                     )}
                 </Form.Item>
                 <Form.Item label="上下架">
-                    {getFieldDecorator("book_status", {
-                        initialValue: this.book.book_status || "0",
+                    {getFieldDecorator("status", {
+                        initialValue: this.book.status || "0",
                     })(
                         <Select>
                             <Option value="1">上架</Option>

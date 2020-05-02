@@ -162,6 +162,23 @@ Object.assign(Index.prototype, {
     },
     payOrder: async function (req, res) {
         var order_number = req.body.order_number;
+        var booklist = await OrderBook.findAll({
+            where: {
+                order_number,
+            }
+        });
+        booklist.map(arr=>{
+            var book_id = arr.dataValues.book_id;
+            var buynum = arr.dataValues.buy_num;
+            Book.findAll({
+                where: {
+                    id:book_id
+                }
+            }).then(data=>{
+                var num = data[0].dataValues.seller_num;
+                Book.update({ seller_num:Number(num||0)+Number(buynum)}, { where: { id:book_id } });
+            })
+        })
         await Model.update({ order_status:"2" }, { where: { order_number } });
         return {
             code: 1,

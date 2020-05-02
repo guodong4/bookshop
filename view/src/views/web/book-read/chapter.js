@@ -34,8 +34,9 @@ const Index = {
             this.showChapter=false;
         },
         handleCancel() {
-            this.chaperList = [];
+            this.chapterList = [];
             this.showAdd = false;
+            this.chapter={}
         },
         changeChapter(e) {
             this.chapter = e.target.value;

@@ -180,6 +180,7 @@ const Index = {
                             </span>
                             } extra={<Icon type="delete" onClick={this.deleteOrder.bind(this, arr)} />} style="margin-top:10px;">
                                 <Table columns={columns} dataSource={arr.child} bordered rowKey={record => record.book_id} /><br />
+                                共￥{arr.order_price}（含邮费）<br /><br />
                                 {arr.order_status == "0" ? <button class="custom-btn-red custom-btn-small" onClick={this.changeStauts.bind(this, arr, 1)}>取消订单</button> : ""}
                                 {arr.order_status == "0" ? <button class="custom-btn-red custom-btn-small" onClick={this.changeStauts.bind(this, arr, 2)}>去支付</button> : ""}
                                 {arr.order_status == "2" ? <button class="custom-btn-red custom-btn-small" onClick={this.changeStauts.bind(this, arr, 5)}>申请退款</button> : ""}
@@ -301,6 +302,7 @@ const Index = {
                             </span>
                             } extra={<Icon type="delete" onClick={this.deleteOrder.bind(this, arr)} />} style="margin-top:10px;">
                                 <Table columns={columns} dataSource={arr.child} bordered rowKey={record => record.book_id} /><br />
+                                共￥{arr.order_price}（含邮费）<br /><br />
                                 {arr.order_status == "0" ? <button class="custom-btn-red custom-btn-small" onClick={this.changeStauts.bind(this, arr, 1)}>取消订单</button> : ""}
                                 {arr.order_status == "0" ? <button class="custom-btn-red custom-btn-small" onClick={this.changeStauts.bind(this, arr, 2)}>去支付</button> : ""}
                                 {arr.order_status == "2" ? <button class="custom-btn-red custom-btn-small" onClick={this.changeStauts.bind(this, arr, 5)}>申请退款</button> : ""}
@@ -421,6 +423,7 @@ const Index = {
                             </span>
                             } extra={<Icon type="delete" onClick={this.deleteOrder.bind(this, arr)} />} style="margin-top:10px;">
                                 <Table columns={columns} dataSource={arr.child} bordered rowKey={record => record.book_id} /><br />
+                                共￥{arr.order_price}（含邮费）<br /><br />
                                 {arr.order_status == "0" ? <button class="custom-btn-red custom-btn-small" onClick={this.changeStauts.bind(this, arr, 1)}>取消订单</button> : ""}
                                 {arr.order_status == "0" ? <button class="custom-btn-red custom-btn-small" onClick={this.changeStauts.bind(this, arr, 2)}>去支付</button> : ""}
                                 {arr.order_status == "2" ? <button class="custom-btn-red custom-btn-small" onClick={this.changeStauts.bind(this, arr, 5)}>申请退款</button> : ""}
@@ -541,6 +544,7 @@ const Index = {
                             </span>
                             } extra={<Icon type="delete" onClick={this.deleteOrder.bind(this, arr)} />} style="margin-top:10px;">
                                 <Table columns={columns} dataSource={arr.child} bordered rowKey={record => record.book_id} /><br />
+                                共￥{arr.order_price}（含邮费）<br /><br />
                                 {arr.order_status == "0" ? <button class="custom-btn-red custom-btn-small" onClick={this.changeStauts.bind(this, arr, 1)}>取消订单</button> : ""}
                                 {arr.order_status == "0" ? <button class="custom-btn-red custom-btn-small" onClick={this.changeStauts.bind(this, arr, 2)}>去支付</button> : ""}
                                 {arr.order_status == "2" ? <button class="custom-btn-red custom-btn-small" onClick={this.changeStauts.bind(this, arr, 5)}>申请退款</button> : ""}
@@ -661,6 +665,7 @@ const Index = {
                             </span>
                             } extra={<Icon type="delete" onClick={this.deleteOrder.bind(this, arr)} />} style="margin-top:10px;">
                                 <Table columns={columns} dataSource={arr.child} bordered rowKey={record => record.book_id} /><br />
+                                共￥{arr.order_price}（含邮费）<br /><br />
                                 {arr.order_status == "0" ? <button class="custom-btn-red custom-btn-small" onClick={this.changeStauts.bind(this, arr, 1)}>取消订单</button> : ""}
                                 {arr.order_status == "0" ? <button class="custom-btn-red custom-btn-small" onClick={this.changeStauts.bind(this, arr, 2)}>去支付</button> : ""}
                                 {arr.order_status == "2" ? <button class="custom-btn-red custom-btn-small" onClick={this.changeStauts.bind(this, arr, 5)}>申请退款</button> : ""}

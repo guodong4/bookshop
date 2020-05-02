@@ -14,7 +14,7 @@ const Index = {
         
     },
     render() {
-        return <div>
+        return <div style="padding-bottom: 80px;">
             <Header/>
             <Body/>
             <Footer/>

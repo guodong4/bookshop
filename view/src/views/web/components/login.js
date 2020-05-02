@@ -1,5 +1,5 @@
 import './index.scss';
-import { Drawer, Form, Button, Col, Row, Input, Select, DatePicker, Icon, Tabs } from 'ant-design-vue';
+import { Drawer, Form, message, Col, Row, Input, Select, DatePicker, Icon, Tabs } from 'ant-design-vue';
 const { TabPane } = Tabs;
 const { Option } = Select;
 const Index = {
@@ -22,7 +22,7 @@ const Index = {
                             localStorage.setItem("member", JSON.stringify(data.data));
                             window.location.reload();
                         } else {
-                            this.msg = data.msg;
+                            message.error(data.msg);
                         }
                     })
                 }

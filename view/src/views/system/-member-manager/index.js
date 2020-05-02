@@ -95,8 +95,8 @@ const Index = {
                 customRender: (text, record, index) => {
                     return <span>
                         {
-                            record.status==0?<button class="custom-btn-green custom-btn-small" onClick={this.updateState.bind(this,record)}>封号</button>:
-                            <button class="custom-btn-red custom-btn-small" onClick={this.updateState.bind(this,record)}>解封</button>
+                            record.status==0?<button class="custom-btn-red custom-btn-small" onClick={this.updateState.bind(this,record)}>解封</button>:
+                            <button class="custom-btn-green custom-btn-small" onClick={this.updateState.bind(this,record)}>封号</button>
                         }
                         
                     </span>

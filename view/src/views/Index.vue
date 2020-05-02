@@ -13,5 +13,6 @@ export default {
 <style lang="scss" scoped>
 .index {
     height: 100%;
+    padding-bottom:-50px;
 }
 </style>

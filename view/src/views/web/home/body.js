@@ -1,5 +1,5 @@
 import './index.scss';
-import { Icon,message } from "ant-design-vue";
+import { Icon, message } from "ant-design-vue";
 import $ from "jquery";
 import BroadCast from "@/components/broadcast/";
 import "@/components/broadcast/index.css";
@@ -14,7 +14,7 @@ const Index = {
                 name: "首页",
                 path: "",
             }],
-            special_index: 0, 
+            special_index: 0,
             option: {
                 page: 1,
                 pageSize: 12
@@ -31,7 +31,7 @@ const Index = {
         //顶部轮播图
         this.getSwoing();
         //获取分类
-       this.getClassify();
+        this.getClassify();
         //获取图书列表
         this.getBookList(this.option);
         //今日特价
@@ -39,13 +39,13 @@ const Index = {
         //广告
         this.getAds();
         //热销榜
-       this.getHot();
+        this.getHot();
         //新书
-       this.getNewBookList();
-       var content = this.$route.query.content;
-       if(content){
-           this.search(content)
-       }
+        this.getNewBookList();
+        var content = this.$route.query.content;
+        if (content) {
+            this.search(content)
+        }
     },
     methods: {
         getNewBookList() {
@@ -113,7 +113,7 @@ const Index = {
                     el: $(".book-body .sowing"),
                     data: data.map(arr => {
                         return {
-                            url:"/detail?id="+arr.book_id,
+                            url: "/detail?id=" + arr.book_id,
                             src: host + "/" + arr.banner_img,
                             mainTitle: arr.book_name,
                             secontTitle: arr.book_desc
@@ -126,16 +126,20 @@ const Index = {
         },
         onChange() { },
         itemClick(itemindex, arr) {
-            this.itemindex = itemindex;
-            if (itemindex != 0) {
-                $(".book-body .sowing").empty();
-            } else {
-                window.location.href="/"
+            if (itemindex == 0) {
+                window.location.href = "/"
             }
-            this.changeClassify(arr)
+            this.changeClassify(arr, itemindex)
         },
-        changeClassify(arr) {
+        changeClassify(arr, itemindex, e) {
+            if (e) {
+                e.stopPropagation();
+            }
             if ((!arr.child) || (arr.child && arr.child.length == 0)) {
+                this.itemindex = itemindex;
+                if (itemindex != 0) {
+                    $(".book-body .sowing").empty();
+                }
                 if (this.itemindex != 0) {
                     this.bookList = [];
                     this.getBookList(this.option, arr);
@@ -163,7 +167,7 @@ const Index = {
         specialClick(num) {
             clearTimeout(autoscroll);
             //向右滚动
-            if (num == 1 && this.special_index == (this.specialList.length >= 6 ? 3 : Math.ceil(this.specialList.length / 2) - 1)) return;
+            if (num == 1 && this.special_index == (Math.ceil(_this.specialList.length / 2) - 1)) return;
             //向左滚动
             if (num == -1 && this.special_index == 0) return;
             this.special_index = this.special_index + num;
@@ -193,7 +197,7 @@ const Index = {
                     clearTimeout(autoscroll);
                 } else {
                     //向右滚动
-                    if (num == 1 && _this.special_index == (_this.specialList.length >= 6 ? 3 : Math.ceil(_this.specialList.length / 2) - 1)) {
+                    if (num == 1 && _this.special_index == (Math.ceil(_this.specialList.length / 2) - 1)) {
                         num = -1;
                     };
                     //向左滚动
@@ -205,12 +209,12 @@ const Index = {
                 }
             }, 3000)
         },
-        search(content){
-            this.itemindex=-1;
+        search(content) {
+            this.itemindex = -1;
             $(".book-body .sowing").empty();
             $ajax({
                 url: "/book/findAllByContent",
-                data:{
+                data: {
                     content
                 }
             }).then(data => {
@@ -226,7 +230,7 @@ const Index = {
         }
         return <div class="book-body">
             <div class="content">
-                <SearchModule search={this.search}/>
+                <SearchModule search={this.search} />
                 <div class="item">
                     <ul class="item-ul">
                         {
@@ -241,7 +245,7 @@ const Index = {
                                             <div class="child-item">
                                                 <ul class="child-item-ul">
                                                     {
-                                                        arr.child.map(child_arr => <li class="child-item-li" onClick={this.changeClassify.bind(this, child_arr)}>{child_arr.name}</li>)
+                                                        arr.child.map(child_arr => <li class="child-item-li" onClick={this.changeClassify.bind(this, child_arr, index)}>{child_arr.name}</li>)
                                                     }
                                                 </ul>
                                             </div> : "" : ""
@@ -283,7 +287,7 @@ const Index = {
                                                         <h3><b>{this.specialList[index * 2].book_name}</b></h3>
                                                         <div style="height:128px;overflow:hidden">{this.specialList[index * 2].book_desc}</div>
                                                         <p><b style="color:#e03737;">￥{this.specialList[index * 2].book_price}</b>&nbsp;&nbsp;&nbsp;&nbsp;<del>￥{this.specialList[index * 2].book_old_price}</del></p>
-                                                        <a href={"/detail?id="+this.specialList[index * 2].book_id} target="_blank"><button class="custom-btn">加入购物车</button></a>
+                                                        <a href={"/detail?id=" + this.specialList[index * 2].book_id} target="_blank"><button class="custom-btn">加入购物车</button></a>
                                                     </div>
                                                 </div>
                                                 {
@@ -296,7 +300,7 @@ const Index = {
                                                                 <h3><b>{this.specialList[index * 2 + 1].book_name}</b></h3>
                                                                 <div style="height:128px;overflow:hidden">{this.specialList[index * 2 + 1].book_desc}</div>
                                                                 <p><b style="color:#e03737;">￥{this.specialList[index * 2 + 1].book_price}</b>&nbsp;&nbsp;&nbsp;&nbsp;<del>￥{this.specialList[index * 2 + 1].book_old_price}</del></p>
-                                                                <a href={"/detail?id="+this.specialList[index * 2].book_id} target="_blank"><button class="custom-btn">加入购物车</button></a>
+                                                                <a href={"/detail?id=" + this.specialList[index * 2].book_id} target="_blank"><button class="custom-btn">加入购物车</button></a>
                                                             </div>
                                                         </div> : ""
                                                 }
@@ -337,7 +341,7 @@ const Index = {
                                                 <p><b style="color:#e03737;">￥{arr.book_price}</b></p>
                                                 <div style="margin:0 auto;text-align:center">
                                                     <button class="custom-btn" onClick={() => { window.open("/detail?id=" + arr.id, "blank") }}>加入购物车</button>
-                                                    <button class="custom-btn-red"  onClick={this.likeThis.bind(this, arr.id)}><Icon type="heart" /></button>
+                                                    <button class="custom-btn-red" onClick={this.likeThis.bind(this, arr.id)}><Icon type="heart" /></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -384,9 +388,9 @@ const Index = {
                                         this.hotList.map((arr, index) => {
                                             return <div>
                                                 <font color={index == 0 || index == 1 || index == 2 ? "red" : ""}>{index + 1}</font>&nbsp;&nbsp;
-                                                <a href={"/detail?id="+arr.id} target="_blank">《{arr.book_name}》</a>&nbsp;&nbsp;<span style="float:right">|&nbsp;&nbsp;
-                                                作者：{arr.book_author}&nbsp;&nbsp;|&nbsp;&nbsp;销量：{arr.seller_num||0}</span>
-                                                </div>
+                                                <a href={"/detail?id=" + arr.id} target="_blank">《{arr.book_name}》</a>&nbsp;&nbsp;<span style="float:right">|&nbsp;&nbsp;
+                                                作者：{arr.book_author}&nbsp;&nbsp;|&nbsp;&nbsp;销量：{arr.seller_num || 0}</span>
+                                            </div>
                                         })
                                     }
                                 </div>
@@ -400,7 +404,7 @@ const Index = {
                                         this.newBookList.map((arr, index) => {
                                             return <div>
                                                 <font color={index == 0 || index == 1 || index == 2 ? "red" : ""}>{index + 1}</font>&nbsp;&nbsp;
-                                                <a href={"/detail?id="+arr.id} target="_blank">《{arr.book_name}》</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float:right">|&nbsp;&nbsp;
+                                                <a href={"/detail?id=" + arr.id} target="_blank">《{arr.book_name}》</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float:right">|&nbsp;&nbsp;
                                                 作者：{arr.book_author}&nbsp;&nbsp;|&nbsp;&nbsp;上架时间：{moment(arr.book_publish_time).format('YYYY-MM-DD')}</span></div>
                                         })
                                     }
