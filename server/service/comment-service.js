@@ -48,7 +48,7 @@ Object.assign(Index.prototype, {
         };
     },
     save: async function (req, res) {
-        var result = await Model.create({ ...req.body, id: uuid.v1() });
+        var result = await Model.create({ ...req.body, id: uuid.v1(),comment_time:new Date() });
         return {
             code: 1,
             data: result.dataValues,

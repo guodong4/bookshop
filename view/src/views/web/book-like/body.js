@@ -37,12 +37,20 @@ const Index = {
                 message.success(data.msg);
                 window.location.reload();
             })
+        },
+        search(value){
+            this.$router.push({
+                path:'/',
+                query:{
+                    content:value
+                }
+            })
         }
     },
     render() {
         return <div class="book-body">
             <div class="content">
-                <SearchModule />
+                <SearchModule search={this.search}/>
                 <div class="goods-cart">
                     <table class="cart-list">
                         <thead>

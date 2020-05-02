@@ -1,7 +1,5 @@
 import './index.scss';
-import Header from "../components/header";
 import Body from "./body";
-import Footer from "../components/footer";
 const Index = {
     data() {
         return {
@@ -15,9 +13,7 @@ const Index = {
     },
     render() {
         return <div>
-            <Header/>
             <Body/> 
-            <Footer/>
         </div>
     }
 };

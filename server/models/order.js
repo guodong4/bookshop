@@ -74,6 +74,10 @@ module.exports = db.define('t_orders',
 		return_express: {
 			type: Sequelize.STRING(50),
 			allowNull: true
+		},//退货快递公司
+		order_delete: {
+			type: Sequelize.STRING(2),
+			allowNull: true
 		},
 	}, {
 	timestamps: false

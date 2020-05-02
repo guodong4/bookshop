@@ -31,7 +31,9 @@ const Index = {
     watch: {
         tags(newVal, oldVal) {
             this.thisTags = newVal;
-            this.clickIndex=this.thisTags.length-1;
+            if(this.closeTag){
+                this.clickIndex=this.thisTags.length-1;
+            }
             this.$forceUpdate();
         }
     },

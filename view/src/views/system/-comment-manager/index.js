@@ -8,7 +8,8 @@ const Index = {
             dataSource: [],
             option: {
                 page: 1,
-                pageSize: 10
+                pageSize: 10,
+                total:0
             },
         };
     },
@@ -28,6 +29,7 @@ const Index = {
                 });
                 this.option.page = data.page;
                 this.option.pageSize = data.pageSize;
+                this.option.total = data.count;
             })
         },
         changeInput(item,e) {
@@ -90,6 +92,9 @@ const Index = {
             {
                 title: '评论时间',
                 dataIndex: 'comment_time',
+                customRender: (text, record, index) => {
+                    return moment(text).format('YYYY-MM-DD HH:mm:ss');
+                }
             },
             {
                 title: '回复',

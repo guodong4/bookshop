@@ -19,8 +19,8 @@ const Index = {
                 total: 1
             },
             rate: 0,
-            member:{},
-            buynum:1
+            member: {},
+            buynum: 1
         };
     },
     mounted() {
@@ -61,21 +61,19 @@ const Index = {
                     ...this.commentPage
                 }
             }).then(data => {
-                if (data.code == 1) {
-                    this.comment = data.rows;
-                    this.commentPage.pageSize = data.pageSize,
-                        this.commentPage.page = data.page,
-                        this.commentPage.total = data.count;
-                    var rate = 0;
-                    data.rows.map(arr => {
-                        rate += arr.comment_star;
-                    });
-                    this.rate = Math.ceil(rate / data.rows.length)
-                }
+                this.comment = data.rows;
+                this.commentPage.pageSize = data.pageSize,
+                    this.commentPage.page = data.page,
+                    this.commentPage.total = data.count;
+                var rate = 0;
+                data.rows.map(arr => {
+                    rate += Number(arr.comment_star);
+                });
+                this.rate = Math.ceil(rate / data.rows.length);
             })
         },
         addCarts(id) {
-            if(!this.member){
+            if (!this.member) {
                 message.error("请先登录！");
                 return;
             }
@@ -83,15 +81,15 @@ const Index = {
                 url: "/carts/addCarts",
                 data: {
                     member_id: this.member.id,
-                    number:this.buynum,
-                    book_id:this.book.id
+                    number: this.buynum,
+                    book_id: this.book.id
                 }
-            }).then(data=>{
+            }).then(data => {
                 message.success(data.msg);
             })
         },
         likeThis(id) {
-            if(!this.member){
+            if (!this.member) {
                 message.error("请先登录！");
                 return;
             }
@@ -99,26 +97,34 @@ const Index = {
                 url: "/like/addLike",
                 data: {
                     member_id: this.member.id,
-                    number:this.buynum,
-                    book_id:this.book.id
+                    number: this.buynum,
+                    book_id: this.book.id
                 }
-            }).then(data=>{
+            }).then(data => {
                 message.success(data.msg);
             })
         },
-        changeCommentPage(page,pageSize) {
-            this.commentPage.pageSize=pageSize;
-            this.commentPage.page=page;
+        changeCommentPage(page, pageSize) {
+            this.commentPage.pageSize = pageSize;
+            this.commentPage.page = page;
             this.getComment(this.book.id);
         },
-        changeNum(value){
+        changeNum(value) {
             this.buynum = value;
+        },
+        search(value){
+            this.$router.push({
+                path:'/',
+                query:{
+                    content:value
+                }
+            })
         }
     },
     render() {
         return <div class="book-body">
             <div class="content">
-                <SearchModule />
+                <SearchModule search={this.search}/>
                 <div class="goods-detail">
                     <div class="goods-bigimg">
                         <div class="goods-img">
@@ -153,14 +159,14 @@ const Index = {
                             <font>作者：{this.book.book_author}，{this.book.book_press}。@{moment(this.book.book_press_time).format('YYYY-MM-DD')}</font>
                             <p>{this.book.book_desc}</p>
                         </div>
-                        <div class="goods-comment"> <font color="#333">好评度</font>&nbsp;&nbsp;&nbsp;&nbsp;<Rate disabled defaultValue={this.rate} /></div>
+                        <div class="goods-comment"> <font color="#333">好评度</font>&nbsp;&nbsp;&nbsp;&nbsp;<Rate disabled value={this.rate} /></div>
                         <div class="goods-price"><font color="#333">价格</font>&nbsp;&nbsp;&nbsp;&nbsp;<font color="red" class="price">￥{this.book.book_price}</font></div>
                         <div class="goods-stock"><font color="#333">库存</font>&nbsp;&nbsp;&nbsp;&nbsp;<font class="stock">{this.book.book_stock}件</font></div>
-                        <div class="goods-num"><font color="#333">数量</font>&nbsp;&nbsp;&nbsp;&nbsp;<span><InputNumber min={1} value={this.buynum} onChange={this.changeNum}/>件</span></div>
+                        <div class="goods-num"><font color="#333">数量</font>&nbsp;&nbsp;&nbsp;&nbsp;<span><InputNumber min={1} value={this.buynum} onChange={this.changeNum} />件</span></div>
                         <div class="goods-other"> {this.book.book_remarks}</div>
                         <div class="goods-cart">
-                            <button class="custom-btn-red" onClick={this.addCarts.bind(this,this.book.id)}>加入购物车</button>
-                            <button class="custom-btn-red" title="收藏该商品" onClick={this.likeThis.bind(this,this.book.id)}><Icon type="heart" /></button>
+                            <button class="custom-btn-red" onClick={this.addCarts.bind(this, this.book.id)}>加入购物车</button>
+                            <button class="custom-btn-red" title="收藏该商品" onClick={this.likeThis.bind(this, this.book.id)}><Icon type="heart" /></button>
                         </div>
                         <div class="goods-warn"> <font color="#333">温馨提示</font>&nbsp;&nbsp;&nbsp;&nbsp;<font class="warn">支持7天无理由退货</font></div>
                     </div>
@@ -198,7 +204,7 @@ const Index = {
                                             <div class="comment-content">
                                                 <div class="comment-rate"><Rate disabled defaultValue={arr.comment_star} /></div>
                                                 <div class="comment-desc">{arr.comment}</div>
-                                                <div class="comment-date">{moment(arr.comment).format('YYYY-MM-DD')}</div>
+                                                <div class="comment-date">{moment(arr.comment_time).format('YYYY-MM-DD HH:mm:ss')}</div>
                                             </div>
                                             <div class="comment-author">
                                                 <div class="author-photo"></div>

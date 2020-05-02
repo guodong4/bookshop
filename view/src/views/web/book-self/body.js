@@ -21,6 +21,14 @@ const Index = {
             if (data.key == 1) this.$router.push("/cart");
             if (data.key == 3) this.$router.push("/collection");
             this.menu_item = data.key;
+        },
+        search(value){
+            this.$router.push({
+                path:'/',
+                query:{
+                    content:value
+                }
+            })
         }
     },
     render() {
@@ -30,7 +38,7 @@ const Index = {
             "5": <MySelf />
         }
         return <div class="book-self">
-            <SearchModule />
+            <SearchModule  search={this.search}/>
             <div class="content">
                 <Layout class="system">
                     <Layout style="min-height:800px">

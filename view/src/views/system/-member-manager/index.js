@@ -7,7 +7,8 @@ const Index = {
             dataSource: [],
             option: {
                 page: 1,
-                pageSize: 10
+                pageSize: 10,
+                total:0
             },
         };
     },
@@ -30,6 +31,7 @@ const Index = {
                 this.dataSource = data.rows;
                 this.option.page = data.page;
                 this.option.pageSize = data.pageSize;
+                this.option.total = data.count;
             })
         },
         reset() {
@@ -47,9 +49,7 @@ const Index = {
                     id:record.id
                 }
             }).then(data => {
-                this.dataSource = data.rows;
-                this.option.page = data.page;
-                this.option.pageSize = data.pageSize;
+               this.getData(this.option)
             })
         }
     },

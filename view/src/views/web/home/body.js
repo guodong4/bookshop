@@ -1,5 +1,5 @@
 import './index.scss';
-import { Icon } from "ant-design-vue";
+import { Icon,message } from "ant-design-vue";
 import $ from "jquery";
 import BroadCast from "@/components/broadcast/";
 import "@/components/broadcast/index.css";
@@ -14,7 +14,7 @@ const Index = {
                 name: "首页",
                 path: "",
             }],
-            special_index: 0,
+            special_index: 0, 
             option: {
                 page: 1,
                 pageSize: 12
@@ -42,6 +42,10 @@ const Index = {
        this.getHot();
         //新书
        this.getNewBookList();
+       var content = this.$route.query.content;
+       if(content){
+           this.search(content)
+       }
     },
     methods: {
         getNewBookList() {
@@ -126,7 +130,7 @@ const Index = {
             if (itemindex != 0) {
                 $(".book-body .sowing").empty();
             } else {
-                this.getSwoing();
+                window.location.href="/"
             }
             this.changeClassify(arr)
         },
@@ -165,6 +169,23 @@ const Index = {
             this.special_index = this.special_index + num;
             this.autoroll(1);
         },
+        likeThis(id) {
+            this.member = localStorage.getItem("member");
+            this.member = JSON.parse(this.member);
+            if (!this.member) {
+                message.error("请先登录！");
+                return;
+            }
+            $ajax({
+                url: "/like/addLike",
+                data: {
+                    member_id: this.member.id,
+                    book_id: id
+                }
+            }).then(data => {
+                message.success(data.msg);
+            })
+        },
         autoroll(num) {
             var _this = this;
             autoscroll = setTimeout(function () {
@@ -183,6 +204,19 @@ const Index = {
                     _this.autoroll(num);
                 }
             }, 3000)
+        },
+        search(content){
+            this.itemindex=-1;
+            $(".book-body .sowing").empty();
+            $ajax({
+                url: "/book/findAllByContent",
+                data:{
+                    content
+                }
+            }).then(data => {
+                this.bookList = data.rows;
+                this.count = data.count;
+            })
         }
     },
     render() {
@@ -192,7 +226,7 @@ const Index = {
         }
         return <div class="book-body">
             <div class="content">
-                <SearchModule />
+                <SearchModule search={this.search}/>
                 <div class="item">
                     <ul class="item-ul">
                         {
@@ -303,7 +337,7 @@ const Index = {
                                                 <p><b style="color:#e03737;">￥{arr.book_price}</b></p>
                                                 <div style="margin:0 auto;text-align:center">
                                                     <button class="custom-btn" onClick={() => { window.open("/detail?id=" + arr.id, "blank") }}>加入购物车</button>
-                                                    <button class="custom-btn-red"><Icon type="heart" /></button>
+                                                    <button class="custom-btn-red"  onClick={this.likeThis.bind(this, arr.id)}><Icon type="heart" /></button>
                                                 </div>
                                             </div>
                                         </div>

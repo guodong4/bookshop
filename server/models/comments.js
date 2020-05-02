@@ -41,6 +41,10 @@ module.exports = db.define('t_comments',
 		comment_replay:{
 			type: Sequelize.STRING(255),
 			allowNull: true
+		},
+		comment_order_id:{
+			type: Sequelize.STRING(50),
+			allowNull: true
 		}
     }, {
 		timestamps: false

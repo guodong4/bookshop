@@ -30,6 +30,15 @@ Object.assign(Index.prototype, {
             page
         };
     },
+    changeReadNum: async function (req, res) {
+        var list = await Read.findAll({
+            where: {
+                id: req.body.read_id,
+            }
+        });
+        await Read.update({read_num:list[0].read_num+1}, { where: { id:req.body.read_id } });
+        return {code:1}
+    },
     findChapterByReadId: async function (req, res) {
         var list = await Chapter.findAll({
             where: {
@@ -39,6 +48,68 @@ Object.assign(Index.prototype, {
         });
         return list
     },
+    findAllByType: async function (req, res) {
+        var type = req.body.type;
+        var pageSize = req.body.pageSize ? Number(req.body.pageSize) : 12;
+        var page = req.body.page ? Number(req.body.page) : 1;
+        var list = await Read.findAndCountAll({
+            offset: pageSize * (page - 1),
+            limit: pageSize,
+            where:{
+                type,
+                status:1
+            },
+            order: [
+                ["publish_time", "desc"]
+            ]
+        });
+        return {
+            ...list,
+            pageSize,
+            page
+        };
+    },
+    getBookTop10: async function (req, res) {
+        var type = req.body.type;
+        var list = await Read.findAndCountAll({
+            offset: 0,
+            limit: 10,
+            where:{
+                type,
+                status:1
+            },
+            order: [
+                ["read_num", "desc"]
+            ]
+        });
+        return list;
+    },
+    getRead: async function (req, res) {
+        var read_id = req.body.read_id;
+        var type = req.body.type;
+        var member_id = req.body.member_id;
+        if(type==1&&!member_id){
+            return {
+                code:0,
+                msg:"未登录不能查阅会员书籍"
+            }
+        }
+        var pageSize = req.body.pageSize ? Number(req.body.pageSize) : 1;
+        var page = req.body.page ? Number(req.body.page) : 1;
+        var list = await Chapter.findAndCountAll({
+            offset: pageSize * (page - 1),
+            limit: pageSize,
+            where:{
+                read_id,
+                status:1
+            }
+        });
+        return {
+            ...list,
+            pageSize,
+            page
+        };
+    },
     findAllChapterContent: async function (req, res) {
         var list = await Chapter.findAll({
             where: {
@@ -47,7 +118,22 @@ Object.assign(Index.prototype, {
         });
         return list
     },
-    
+    findAllByContent: async function (req, res) {
+        var content = req.body.content || "";
+        var list = await Read.findAll({
+            where: {
+                status: 1,
+                type:req.body.type,
+                [Op.or]:{
+                    title: { [Op.like]: '%' + content + '%' },
+                    author: { [Op.like]: '%' + content + '%' }
+                } 
+            }
+        });
+        return list;
+    },
+
+
     save: async function (req, res) {
         var result = await Read.create({ ...req.body, id: uuid.v1()});
         return {

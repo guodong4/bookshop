@@ -7,7 +7,7 @@ const Index = {
             toPayMoney:false,
             password:"",
             order_number:"",
-            order_price:0
+            order_price:10
         };
     },
     mounted() {
@@ -22,7 +22,9 @@ const Index = {
                     order_number:order_number
                 }
             }).then(data=>{
-                this.order_price = data.data.order_price
+                data.data.map(arr=>{
+                    this.order_price +=Number(arr.price_total);
+                })
             })
         },
         payNow() {

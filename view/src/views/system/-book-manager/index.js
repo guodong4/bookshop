@@ -11,7 +11,8 @@ const Index = {
 
             option: {
                 page: 1,
-                pageSize: 10
+                pageSize: 10,
+                total:0
             },
         };
     },
@@ -34,6 +35,7 @@ const Index = {
                 this.dataSource = data.rows;
                 this.option.page = data.page;
                 this.option.pageSize = data.pageSize;
+                this.option.total = data.count;
             })
         },
         reset() {
@@ -212,7 +214,7 @@ const Index = {
                 pagination={{
                     ...this.option,
                     current:this.option.page,
-                    onChange: this.changePage
+                    onChange: this.changePage,
                 }}
             />
             <SetBook ref="setbook" reload={this.reset} />

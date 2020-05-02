@@ -24,7 +24,10 @@ Object.assign(Index.prototype, {
                 book_name: { [Op.like]: '%' + book_name + '%' },
                 book_author: { [Op.like]: '%' + book_author + '%' },
                 id: { [Op.like]: '%' + id + '%' },
-            }
+            },
+            order: [
+                ["book_publish_time", "desc"]
+            ]
         });
         return {
             ...list,
@@ -43,7 +46,36 @@ Object.assign(Index.prototype, {
         var list = await Book.findAndCountAll({
             offset: pageSize * (page - 1),
             limit: pageSize,
-            where
+            where,
+            order: [
+                ["book_publish_time", "desc"]
+            ]
+        });
+        return {
+            ...list,
+            pageSize,
+            page
+        };
+    },
+    
+    findAllByContent: async function (req, res) {
+        var content = req.body.content || "";
+        var where = { book_status: 1 };
+        var pageSize = req.body.pageSize ? Number(req.body.pageSize) : 12;
+        var page = req.body.page ? Number(req.body.page) : 1;
+        var list = await Book.findAndCountAll({
+            offset: pageSize * (page - 1),
+            limit: pageSize,
+            where: {
+                book_status: 1,
+                [Op.or]:{
+                    book_name: { [Op.like]: '%' + content + '%' },
+                    book_author: { [Op.like]: '%' + content + '%' }
+                } 
+            },
+            order: [
+                ["book_publish_time", "desc"]
+            ]
         });
         return {
             ...list,
@@ -57,7 +89,10 @@ Object.assign(Index.prototype, {
             where: {
                 book_name: { [Op.like]: book_name + '%' },
                 book_status: 1
-            }
+            },
+            order: [
+                ["book_publish_time", "desc"]
+            ]
         });
         return list;
     },
@@ -91,7 +126,7 @@ Object.assign(Index.prototype, {
         })
     },
     save: async function (req, res) {
-        var result = await Book.create({ ...req.body, id: uuid.v1(), book_publish_time: new Date(),seller_num:0 });
+        var result = await Book.create({ ...req.body, id: uuid.v1(), book_publish_time: new Date(), seller_num: 0 });
         return {
             code: 1,
             data: result.dataValues,
@@ -130,8 +165,8 @@ Object.assign(Index.prototype, {
             offset: 0,
             limit: 10,
             where,
-            order:[
-                ["book_publish_time","desc"]
+            order: [
+                ["book_publish_time", "desc"]
             ]
         });
         return list;
@@ -142,8 +177,8 @@ Object.assign(Index.prototype, {
             offset: 0,
             limit: 10,
             where,
-            order:[
-                ["seller_num","desc"]
+            order: [
+                ["seller_num", "desc"]
             ]
         });
         return list;

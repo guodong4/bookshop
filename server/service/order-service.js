@@ -1,4 +1,6 @@
 var Model = require('../models/order');
+var Book = require('../models/book');
+var Carts = require('../models/carts');
 var Record = require('../models/record');
 var OrderBook = require('../models/orderBook');
 var Address = require('../models/address');
@@ -51,6 +53,7 @@ Object.assign(Index.prototype, {
         var order_book = req.body.order_book;
         var order_number = uuid.v1();
         var order_id = uuid.v1();
+        //生成订单
         var result = await Model.create({ 
             id: order_id,
             order_price:req.body.order_price,
@@ -66,8 +69,11 @@ Object.assign(Index.prototype, {
             return_express_number:"",
             return_express:""
         });
+        //订单里的商品详细
         order_book = JSON.parse(order_book);
         order_book.map(arr=>{
+            //需要把购物车已经生成订单的商品删除
+            Carts.destroy({ where: { book_id:arr.id,member_id:req.body.member_id } });
             OrderBook.create({ 
                 id: uuid.v1(),
                 book_id:arr.id,
@@ -79,6 +85,7 @@ Object.assign(Index.prototype, {
                 price_total:arr.number*arr.book_price
             });
         });
+        //记录订单操作记录
         Record.create({ 
             id: uuid.v1(),
             record:"创建订单",
@@ -91,6 +98,33 @@ Object.assign(Index.prototype, {
             data: result.dataValues,
             msg: "添加成功"
         };
+    },
+
+    findByStatus:async function (req, res) {
+        var member_id = req.body.member_id;
+        var order_status = req.body.order_status;
+        var result = await Model.findAll({ where: { 
+            order_delete:{[Op.or]: [null,""]},
+            member_id,
+            order_status:{[Op.like]: '%' + order_status + '%'},
+         } });
+        var numbers = result.map(arr => { 
+            return arr.order_number 
+        });
+        var booklist = await OrderBook.findAll({
+            where: {
+                order_number: { [Op.in]: numbers },
+            }
+        });
+        return result.map(arr=>{
+            booklist.map(item=>{
+                if(arr.order_number==item.order_number){
+                    arr.dataValues.child=arr.dataValues.child||[];
+                    arr.dataValues.child.push(item.dataValues)
+                }
+            });
+            return arr.dataValues;
+        })
     },
     saveAddress: async function (req, res) {
         var is_default = req.body.is_default;
@@ -136,10 +170,73 @@ Object.assign(Index.prototype, {
     },
     updateStatus: async function (req, res) {
         var id = req.body.id;
+        if(req.body.order_status==2){
+            Record.create({ 
+                id: uuid.v1(),
+                record:"已取消",
+                record_time:new Date(),
+                order_id:id,
+                record_user:req.body.member_id
+            });
+        }
         if(req.body.order_status==3){
             Record.create({ 
                 id: uuid.v1(),
                 record:"已发货",
+                record_time:new Date(),
+                order_id:id,
+                record_user:"管理员"
+            });
+        }
+        if(req.body.order_status==4){
+            Record.create({ 
+                id: uuid.v1(),
+                record:"已收货",
+                record_time:new Date(),
+                order_id:id,
+                record_user:req.body.member_id
+            });
+        }
+        if(req.body.order_status==5){
+            Record.create({ 
+                id: uuid.v1(),
+                record:"申请退款",
+                record_time:new Date(),
+                order_id:id,
+                record_user:req.body.member_id
+            });
+        }
+        if(req.body.order_status==6){
+            Record.create({ 
+                id: uuid.v1(),
+                record:"申请退货并退款",
+                record_time:new Date(),
+                order_id:id,
+                record_user:req.body.member_id
+            });
+        }
+        if(req.body.order_status==7){
+            Record.create({ 
+                id: uuid.v1(),
+                record:"申请退单成功",
+                record_time:new Date(),
+                order_id:id,
+                record_user:"管理员"
+            });
+        }
+        if(req.body.order_status==8){
+            Record.create({ 
+                id: uuid.v1(),
+                record:"退货中",
+                record_time:new Date(),
+                order_id:id,
+                record_user:req.body.member_id
+            });
+        }
+        if(req.body.order_status==9){
+            Record.create({ 
+                id: uuid.v1(),
+                record:"已完成",
                 record_time:new Date(),
                 order_id:id,
                 record_user:"管理员"
@@ -169,7 +266,7 @@ Object.assign(Index.prototype, {
     },
     delete: async function (req, res) {
         var id = req.body.id;
-        await Model.destroy({ where: { id } })
+        await Model.update({order_delete:1 }, { where: { id } });
         return {
             code: 1,
             msg: "删除成功"
